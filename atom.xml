@@ -1,0 +1,356 @@
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://monet-technologies-com.github.io/tech-blog</id>
+    <title>MONET Tech-Blog</title>
+    <link href="https://monet-technologies-com.github.io/tech-blog" />
+    <updated>2020-08-30T19:06:55.000Z</updated>
+    <category term="Arch Linux" />
+    <category term="Linux" />
+    <category term="hexo" />
+    <category term="vscode" />
+    <category term="github" />
+    <category term="docker" />
+    <entry>
+        <id>https://monet-technologies-com.github.io/tech-blog/2020/08/30/%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2OSS%20(OSRM)%20%E3%81%AE%E4%BA%88%E6%B8%AC%E7%B2%BE%E5%BA%A6%E3%82%92%E8%AA%BF%E3%81%B9%E3%81%BE%E3%81%97%E3%81%9F/</id>
+        <title>ルート検索OSS (OSRM) の予測精度を調べました</title>
+        <link rel="alternate" href="https://monet-technologies-com.github.io/tech-blog/2020/08/30/%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2OSS%20(OSRM)%20%E3%81%AE%E4%BA%88%E6%B8%AC%E7%B2%BE%E5%BA%A6%E3%82%92%E8%AA%BF%E3%81%B9%E3%81%BE%E3%81%97%E3%81%9F/"/>
+        <content type="html">&lt;p&gt;システム部の登山担当太田です&lt;br&gt;
+山はいいぞ&lt;/p&gt;
+&lt;p&gt;今回はルート検索の OSS である OSRM を検証した話です&lt;br&gt;
+地図データには OSM を用いています&lt;br&gt;
+導入は別で書きます&lt;/p&gt;
+&lt;h1 id=&#34;前談&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#前談&#34;&gt;#&lt;/a&gt; 前談&lt;/h1&gt;
+&lt;h2 id=&#34;ルート検索のコスト削減&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#ルート検索のコスト削減&#34;&gt;#&lt;/a&gt; ルート検索のコスト削減&lt;/h2&gt;
+&lt;p&gt;MONET ではオンデマンドバスサービスを提供していますが&lt;br&gt;
+その裏ではルート検索による時間取得のロジックが何度もはしっています&lt;br&gt;
+マッチングの最適化など今後進めていくにあたってもルート検索のコストは抑えたいところです&lt;br&gt;
+そこで信頼性をある程度担保して低コストなルート検索できないかな？&lt;br&gt;
+ということで OSS の有効性を検証しました&lt;/p&gt;
+&lt;h2 id=&#34;osmとは&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#osmとは&#34;&gt;#&lt;/a&gt; OSM とは&lt;/h2&gt;
+&lt;p&gt;素晴らしい取り組みとして Open Street Map (OSM) という地理情報をみんなで作って行こうぜ！オープンライセンスで誰にでも使えるようにしようぜ！というイカしたプロジェクトがあります&lt;br&gt;
+ Open Street Map では所々足りていない情報はありますが&lt;br&gt;
+道路のクラス分けや店舗の情報までオープンライセンスと考えれば十分すぎるほどの地理データが利用できます&lt;br&gt;
+&lt;img src=&#34;2020-08-31T130832.png&#34; alt=&#34;2020-08-31T130832&#34;&gt;&lt;/p&gt;
+&lt;div class=&#34;mdui-table-fluid theme-post__card__table--flat&#34;&gt;&lt;table class=&#34;mdui-table mdui-table-hoverable &#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;OSM で利用可能な情報&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;○&lt;/td&gt;
+&lt;td&gt;道路分類，建物分類，各名称&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;×&lt;/td&gt;
+&lt;td&gt;公共交通機関，交通量&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+ &lt;br&gt;
+&lt;p&gt;もちろん自分たちで編集ができ，自宅の周りとか眺めてポチポチするだけで世界の地理データベース作成に貢献できるのでぜひやってみてください！&lt;/p&gt;
+&lt;h2 id=&#34;osrmとは&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#osrmとは&#34;&gt;#&lt;/a&gt; OSRM とは&lt;/h2&gt;
+&lt;p&gt;ルート検索エンジンの OSS です.&lt;br&gt;
+ 中身のアルゴリズムは multi dikstra で OSM の地図情報を基に&lt;br&gt;
+最短ルートを決定します. (他のアルゴリズムも使用可)&lt;br&gt;
+ 高速道路を省いたり，U ターンを禁止したりなど&lt;br&gt;
+痒いところの設定までできてしまう優れものです.&lt;br&gt;
+Mapbox でも採用されていたりします.&lt;a href=&#34;https://blog.mapbox.com/mapbox-directions-powered-by-osrm-4-8-1-cf2c45ae9aa8&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt; ブログ記事&lt;/a&gt;&lt;br&gt;
+ルート検索だけでなく&lt;br&gt;
+ MapBox でも採用されていたりします&lt;br&gt;
+このルート検索エンジン使ってどれくらい正しく予測できるの？&lt;br&gt;
+というのが今回のお題です&lt;/p&gt;
+&lt;h2 id=&#34;osrmってどんな感じで動いてますん&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#osrmってどんな感じで動いてますん&#34;&gt;#&lt;/a&gt; OSRM ってどんな感じで動いてますん&lt;/h2&gt;
+&lt;p&gt;実装までは&lt;a href=&#34;&#34;&gt;他記事&lt;/a&gt;でも紹介されているので省きますが&lt;br&gt;
+ザクっとこんな感じです&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;OSM の最新地図情報を保存&lt;/li&gt;
+&lt;li&gt;lua ファイル定義に従って重み付けされたグラフを作成&lt;/li&gt;
+&lt;li&gt;HTTP サーバーを起動してリクエスト&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;検証&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#検証&#34;&gt;#&lt;/a&gt; 検証&lt;/h1&gt;
+&lt;p&gt;最初に東京都内の限られた範囲でランダムに 2 点を&lt;br&gt;
+限られた範囲でのルート検索制度を検証しました.&lt;br&gt;
+ 検証範囲は以下になります.&lt;br&gt;
+&lt;img src=&#34;2020-09-01T095105.png&#34; alt=&#34;2020-09-01T095105&#34;&gt;&lt;br&gt;
+ この中で 1000 回程度 Google Direction API, OSRM API どちらも叩いて統計差がどれくらいか，変なルート通っていないか比較しました.&lt;/p&gt;
+&lt;p&gt;設定はこんな感じです&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;両方とも高速道路を通らない&lt;/li&gt;
+&lt;li&gt;Direction API は trafficMode=optimistic&lt;/li&gt;
+&lt;li&gt;OSRM は交通量情報を考慮しない&lt;/li&gt;
+&lt;li&gt;OSRM の設定 lua ファイルはデフォルト (car.lua) のまま&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;結果&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#結果&#34;&gt;#&lt;/a&gt; 結果&lt;/h1&gt;
+&lt;h2 id=&#34;予測結果&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#予測結果&#34;&gt;#&lt;/a&gt; 予測結果&lt;/h2&gt;
+&lt;p&gt;ランダムに 1 つ抜き出してきました.&lt;br&gt;
+ ルートは似たようなルートを通っていますが&lt;br&gt;
+時間が結構ずれています.&lt;br&gt;
+&lt;img src=&#34;2020-09-01T095718.png&#34; alt=&#34;2020-09-01T095718&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;距離誤差時間誤差&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#距離誤差時間誤差&#34;&gt;#&lt;/a&gt; 距離誤差＆時間誤差&lt;/h2&gt;
+&lt;p&gt;距離 / 時間の相対誤差のヒストグラムは以下のようになりました.&lt;br&gt;
+&lt;img src=&#34;2020-09-01T095458.png&#34; alt=&#34;2020-09-01T095458&#34;&gt;&lt;br&gt;
+ ルート可視化と同様に，距離誤差はデフォルトでもある程度正しいですが&lt;br&gt;
+時間誤差が大きいので修正が必要です.&lt;/p&gt;
+&lt;h2 id=&#34;速い道路-遅い道路の区分け&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#速い道路-遅い道路の区分け&#34;&gt;#&lt;/a&gt; 速い道路，遅い道路の区分け&lt;/h2&gt;
+&lt;p&gt;適当に低速，中速，高速で分けると&lt;br&gt;
+高速の比率が大きいほど予測を外していることが分かりました.&lt;br&gt;
+&lt;img src=&#34;2020-09-01T100026.png&#34; alt=&#34;2020-09-01T100026&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;チューニング&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#チューニング&#34;&gt;#&lt;/a&gt; チューニング&lt;/h1&gt;
+&lt;p&gt;上記の結果を踏まえてチューニングを行いました.&lt;br&gt;
+lua ファイル内では道路のタグ名ごとに初期設定速度を入れています.&lt;br&gt;
+ 今回はそちらを定数倍する大雑把な修正を行いました.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;2020-09-01T100311.png&#34; alt=&#34;2020-09-01T100311&#34;&gt;&lt;/p&gt;
+&lt;p&gt;これで統計的な情報をある程度合わせられる！(チューニングですので)&lt;/p&gt;
+&lt;h1 id=&#34;チューニング結果&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#チューニング結果&#34;&gt;#&lt;/a&gt; チューニング結果&lt;/h1&gt;
+&lt;p&gt;こんな感じになりました&lt;br&gt;
+散布図&lt;br&gt;
+&lt;img src=&#34;2020-09-01T100439.png&#34; alt=&#34;2020-09-01T100439&#34;&gt;&lt;br&gt;
+ ヒストグラム&lt;br&gt;
+&lt;img src=&#34;2020-09-01T100501.png&#34; alt=&#34;2020-09-01T100501&#34;&gt;&lt;/p&gt;
+&lt;p&gt;平均はあるていど合わせられましたが分散まで Google の予測と同様とはやはり行かなかったです.&lt;br&gt;
+ 交通量の考慮も入ってくるのでそのままの代用は難しいですね.&lt;br&gt;
+ 一方，大きく外すわけではないので裏のロジックに使用したりとか&lt;br&gt;
+使い道を考えれば導入できるのでは？という感触でした&lt;/p&gt;
+&lt;h1 id=&#34;まとめ&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#まとめ&#34;&gt;#&lt;/a&gt; まとめ&lt;/h1&gt;
+&lt;p&gt;Google と比較して検証しました&lt;br&gt;
+全体大きくは外さないですがダメな時もありました&lt;br&gt;
+どこまでの精度求めるかによりますが&lt;br&gt;
+存外使えるかもという事で裏側ロジックでの実装と導入&lt;br&gt;
+どの部分に使うかを模索することになりました.&lt;/p&gt;
+</content>
+        <updated>2020-08-30T19:06:55.000Z</updated>
+    </entry>
+    <entry>
+        <id>https://monet-technologies-com.github.io/tech-blog/2020/08/18/Arch%20Linux%E3%81%AF%E3%81%84%E3%81%84%E3%81%9E%E3%81%A8%E3%81%84%E3%81%86%E8%A9%B1/</id>
+        <title>Arch Linuxはいいぞという話</title>
+        <link rel="alternate" href="https://monet-technologies-com.github.io/tech-blog/2020/08/18/Arch%20Linux%E3%81%AF%E3%81%84%E3%81%84%E3%81%9E%E3%81%A8%E3%81%84%E3%81%86%E8%A9%B1/"/>
+        <content type="html">&lt;h1 id=&#34;はじめに&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#はじめに&#34;&gt;#&lt;/a&gt; はじめに&lt;/h1&gt;
+&lt;p&gt;MONET Technologies 株式会社、2020 年新卒入社の竹内です。&lt;/p&gt;
+&lt;p&gt;この記事では、自分のおすすめする　Linux ディストリビューションである Arch Linux についてちょろっと書かせて頂きます。&lt;/p&gt;
+&lt;h2 id=&#34;arch-linuxが好きです&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#arch-linuxが好きです&#34;&gt;#&lt;/a&gt; Arch Linux が好きです。&lt;/h2&gt;
+&lt;p&gt;エンジニアなら一度は辿り着く境地、 &lt;strong&gt;「オレオレカスタマイズしたマイスイート PC を作りたい」&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;自分はハードウェアがそこそこの PC に、どんなソフトを載せるか、というところが好きです&lt;br&gt;
+ (自作 PC 勢のお話も是非聴いてみたいですが)。&lt;/p&gt;
+&lt;p&gt;そんな自分が大学生の時からお世話になっているのが、&lt;br&gt;
+&lt;a href=&#34;https://www.archlinux.jp/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Arch Linux&lt;/a&gt; という Linux のディストリビューションです。&lt;/p&gt;
+&lt;h2 id=&#34;何がいいの&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#何がいいの&#34;&gt;#&lt;/a&gt; 何がいいの？&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;めちゃくちゃ軽量 &amp;amp; 爆速 (個人の感想です)&lt;/li&gt;
+&lt;li&gt;パッケージマネージャが優秀 (ほとんどのソフトを一つのパッケージマネージャで完結できて嬉しい)&lt;/li&gt;
+&lt;li&gt;最初にミニマムな要素 (CLI 環境) しか入っていないので、ウィンドウマネージャなどを自分の好みで入れられる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;この辺が自分のツボです。特に、高校生の頃に買った弱い PC に Arch を入れた時、あんなに Windows が重かったのが爆速で動くようになった感動を今でも忘れられません。&lt;/p&gt;
+&lt;h2 id=&#34;まぁ諸説あるけど&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#まぁ諸説あるけど&#34;&gt;#&lt;/a&gt; まぁ諸説あるけど&lt;/h2&gt;
+&lt;p&gt;とはいえ、確かに、 &lt;strong&gt;少しメンテナンスが面倒くさい&lt;/strong&gt; こともあるかもしれません。&lt;br&gt;
+特に、Arch には始め殆どの要素は入っていない状態からスタートするので、デスクトップ環境を構築するまでが面倒だったり、カーネルのアップデートで起動しなくなったり、ということも無くはないです。&lt;/p&gt;
+&lt;p&gt;が、手のかけた子ほど可愛い、そう思いませんか？(個人の意見です)&lt;/p&gt;
+&lt;p&gt;何か問題が起きたとしても、&lt;a href=&#34;https://wiki.archlinux.jp/index.php/%E3%83%A1%E3%82%A4%E3%83%B3%E3%83%9A%E3%83%BC%E3%82%B8&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Arch Wiki&lt;/a&gt; がかなり優秀なので、大抵なんとかなります。&lt;/p&gt;
+&lt;p&gt;余談ですが、Ubuntu など別の Linux ディストリビューションを使っても Arch Wiki の情報で助かったりするので、優秀なドキュメントになっているなと感じます。&lt;/p&gt;
+&lt;h2 id=&#34;おすすめのウィンドウマネージャ&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#おすすめのウィンドウマネージャ&#34;&gt;#&lt;/a&gt; おすすめのウィンドウマネージャ&lt;/h2&gt;
+&lt;p&gt;せっかくなので、Arch Linux 上での構成を少しだけお話します。&lt;/p&gt;
+&lt;p&gt;自分はウィンドウを画面一杯、もしくは二つのウィンドウを右と左に分けて、と言った感じで敷き詰めるのが好きなので、タイル型のウィンドウマネージャが好きです。&lt;/p&gt;
+&lt;p&gt;自分の PC に入れているのは、&lt;a href=&#34;https://awesomewm.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;awesome&lt;/a&gt; というウィンドウマネージャです。&lt;br&gt;
+こちらを使うと、ショートカットキーで&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ウィンドウの配置&lt;/li&gt;
+&lt;li&gt;フォーカスの切替&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;などが簡単にできるので好みです。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;2020-08-18T144707.png&#34; alt=&#34;2020-08-18T144707&#34;&gt;&lt;/p&gt;
+&lt;p&gt;さらに、google-chrome の&lt;a href=&#34;https://support.google.com/chrome/answer/1649523?co=GENIE.Platform%3DDesktop&amp;amp;hl=ja&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt; remote desktop&lt;/a&gt; も入るので、自宅の PC に Arch Linux を入れて、リモートデスクトップを経由して手元の PC から作業、なんてこともできます。&lt;/p&gt;
+&lt;p&gt;リモートデスクトップの割に爆速で、中でどんな仕組みになっているか気になっちゃいますね。。。&lt;/p&gt;
+&lt;h1 id=&#34;まとめ&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#まとめ&#34;&gt;#&lt;/a&gt; まとめ&lt;/h1&gt;
+&lt;p&gt;Arch Linux はいいぞ。&lt;/p&gt;
+</content>
+        <category term="Arch Linux" />
+        <category term="Linux" />
+        <updated>2020-08-18T03:00:00.000Z</updated>
+    </entry>
+    <entry>
+        <id>https://monet-technologies-com.github.io/tech-blog/2020/07/15/%E6%8A%80%E8%A1%93%E3%83%96%E3%83%AD%E3%82%B0%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F(VSCode%E3%81%AE%E8%A8%AD%E5%AE%9A%E7%B7%A8)/</id>
+        <title>技術ブログ始めました(VSCodeの設定編)</title>
+        <link rel="alternate" href="https://monet-technologies-com.github.io/tech-blog/2020/07/15/%E6%8A%80%E8%A1%93%E3%83%96%E3%83%AD%E3%82%B0%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F(VSCode%E3%81%AE%E8%A8%AD%E5%AE%9A%E7%B7%A8)/"/>
+        <content type="html">&lt;h1 id=&#34;はじめに&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#はじめに&#34;&gt;#&lt;/a&gt; はじめに&lt;/h1&gt;
+&lt;p&gt;MONET Technologies 株式会社、2020 年新卒入社の竹内です。&lt;/p&gt;
+&lt;p&gt;この記事では、技術ブログ開始に当たって、VSCode での Hexo 記事執筆環境を導入した話です。&lt;/p&gt;
+&lt;p&gt;全体構成のお話は&lt;a href=&#34;/tech-blog/2020/07/14/%E6%8A%80%E8%A1%93%E3%83%96%E3%83%AD%E3%82%B0%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F(%E6%A7%8B%E6%88%90%E7%B7%A8)/&#34; title=&#34;技術ブログ始めました(構成編)&#34;&gt;技術ブログ始めました(構成編)&lt;/a&gt;でお話しています。&lt;/p&gt;
+&lt;p&gt;静的サイトジェネレータである Hexo を導入したお話は&lt;a href=&#34;/tech-blog/2020/07/15/%E6%8A%80%E8%A1%93%E3%83%96%E3%83%AD%E3%82%B0%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F(Hexo-on-Docker%E7%B7%A8)/&#34; title=&#34;技術ブログ始めました(Hexo-on-Docker編)&#34;&gt;技術ブログ始めました(Hexo-on-Docker編)&lt;/a&gt;でお話しています。&lt;/p&gt;
+&lt;h2 id=&#34;楽な執筆環境に向けて&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#楽な執筆環境に向けて&#34;&gt;#&lt;/a&gt; 楽な執筆環境に向けて&lt;/h2&gt;
+&lt;p&gt;技術ブログ、エンジニアの方なら一度は書こうとするものだと思うのですが、3 ヶ月続けられた方には心からの拍手を送りたいです。&lt;/p&gt;
+&lt;p&gt;やはり、モノを書く、アウトプットするのってコストが高いんですよね。単なるメモ程度なら雑に書いても良いわけですが、ブログとして書こうとするとある程度体裁を整えないといけなかったり。。。といったことを考えると、筆が重くなり。。。&lt;/p&gt;
+&lt;p&gt;そこで今回は、執筆を楽にするためのツール、VSCode 上のエクステンションを紹介してみます。&lt;/p&gt;
+&lt;h2 id=&#34;vscode-hexo-utils&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#vscode-hexo-utils&#34;&gt;#&lt;/a&gt; vscode-hexo-utils&lt;/h2&gt;
+&lt;p&gt;Hexo+VSCode で執筆する際には必須のエクステンションです。&lt;br&gt;
+この&lt;a href=&#34;https://marketplace.visualstudio.com/items?itemName=fantasy.vscode-hexo-utils&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt; vscode-hexo-utils&lt;/a&gt; を使うと&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;記事一覧やタグ一覧を表示するサイドバーの追加&lt;/li&gt;
+&lt;li&gt;マークダウンに画像を挿入したプレビュー時、Hexo ならではの画像ディレクトリ構成に対応してプレビューを見せてくれる&lt;/li&gt;
+&lt;li&gt;Win:ctrl-alt-v Mac:opt-cmd-v でクリップボードの画像を貼り付け (記事に対応した画像配置用ディレクトリの作成とマークダウン上の参照文記述)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;などなどしてくれるので大分執筆が楽になります。特に画像の挿入は重要なので、開発者には頭が上がりません。&lt;/p&gt;
+&lt;h2 id=&#34;remote-development&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#remote-development&#34;&gt;#&lt;/a&gt; Remote Development&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://code.visualstudio.com/docs/remote/remote-overview&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;こちら&lt;/a&gt;は Docker など、リモートとして作った環境に対して VSCode を接続できるエクステンションです。今回は Docker 上に Hexo や Git を構成しているので、直接接続して、Docker 上のコマンドを呼び出す、なんてことが簡単になります。&lt;/p&gt;
+&lt;p&gt;ただ、残念なことが、 &lt;strong&gt;リモートで接続した際にクリップボードが共有化されていないらしく、上記の vscode-hexo-utils の画像コピペ機能が上手く働きません。&lt;/strong&gt;&lt;br&gt;
+そのため、こちらは残念ながら、執筆中には使えない感じになっています。。。&lt;br&gt;
+もしクリップボードの共有化ができると、&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;vscode を直接 Docker に繋げる&lt;/li&gt;
+&lt;li&gt;vscode-hexo-utils を使いながら執筆&lt;/li&gt;
+&lt;li&gt;直接 Docker 内のコマンドを叩いてデプロイ&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;といった使い方ができるようになります。&lt;/p&gt;
+&lt;p&gt;もちろん今の Remote Development 機能も大変良いモノで、友人なんかは、RaspberryPi などでリモート環境を作る、VSCode でリモート接続して手元の PC で IoT 開発、なんてこともしているのでおすすめです。&lt;/p&gt;
+&lt;h2 id=&#34;vscodeのタスク機能&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#vscodeのタスク機能&#34;&gt;#&lt;/a&gt; VSCode のタスク機能&lt;/h2&gt;
+&lt;p&gt;今回は Docker を通じてのデプロイになりますが、VSCode の方でコマンドを打ってデプロイまで行いたいですよね。&lt;br&gt;
+そこで使うのが、VSCode のタスク機能です。&lt;/p&gt;
+&lt;p&gt;参考になるのが&lt;a href=&#34;https://fereria.github.io/reincarnation_tech/98_Other/VSCode/vscode_create_task/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;こちら&lt;/a&gt;です。&lt;/p&gt;
+&lt;p&gt;自分は&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-language-json&#34; mdui-tooltip=&#34;{content: &#39;language-json&#39;}&#34;&gt;&lt;code class=&#34;language-language-json&#34;&gt;{
+  &#34;version&#34;: &#34;2.0.0&#34;,
+  &#34;tasks&#34;: [
+    {
+      &#34;label&#34;: &#34;deploy-hexo-on-docker&#34;,
+      &#34;type&#34;: &#34;shell&#34;,
+      &#34;command&#34;: &#34;docker exec -it hexo-domain.com git add . &amp;&amp; docker exec -it hexo-domain.com git commit -m &#39;update ${fileBasenameNoExtension}&#39; &amp;&amp; docker exec -it hexo-domain.com git push&#34;
+    }
+  ]
+}
+&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;というコマンドを登録して、VSCode から Docker 上の Git を叩き、push するとともにデプロイを行っています。&lt;br&gt;
+このタスク機能を使えば、任意のコマンドを VSCode 上で使えるので良いですね。&lt;/p&gt;
+&lt;h2 id=&#34;vscode-drawio&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#vscode-drawio&#34;&gt;#&lt;/a&gt; vscode-drawio&lt;/h2&gt;
+&lt;p&gt;最後に紹介するエクステンションは、&lt;br&gt;
+&lt;a href=&#34;https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;vscode-drawio&lt;/a&gt; です。&lt;/p&gt;
+&lt;p&gt;こちらはブラウザ上で動く draw.io を vscode 上で動かそうというモノで、簡単な図を書きたい時に使えます。&lt;/p&gt;
+&lt;p&gt;この、なんでもエディタ上にのせてやろうという心意気、自分は嫌いじゃないです。笑&lt;/p&gt;
+&lt;h1 id=&#34;まとめ&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#まとめ&#34;&gt;#&lt;/a&gt; まとめ&lt;/h1&gt;
+&lt;p&gt;様々な VSCode のエクステンションがあって、見ていて楽しいです。&lt;br&gt;
+もちろんエンジニアは何を生み出すか、も重要ですが、たまには息抜きに自分の道具を磨いて見るのも良いですね。&lt;/p&gt;
+</content>
+        <category term="hexo" />
+        <category term="vscode" />
+        <updated>2020-07-15T23:31:46.000Z</updated>
+    </entry>
+    <entry>
+        <id>https://monet-technologies-com.github.io/tech-blog/2020/07/15/%E6%8A%80%E8%A1%93%E3%83%96%E3%83%AD%E3%82%B0%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F(Hexo-on-Docker%E7%B7%A8)/</id>
+        <title>技術ブログ始めました(Hexo-on-Docker編)</title>
+        <link rel="alternate" href="https://monet-technologies-com.github.io/tech-blog/2020/07/15/%E6%8A%80%E8%A1%93%E3%83%96%E3%83%AD%E3%82%B0%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F(Hexo-on-Docker%E7%B7%A8)/"/>
+        <content type="html">&lt;h1 id=&#34;はじめに&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#はじめに&#34;&gt;#&lt;/a&gt; はじめに&lt;/h1&gt;
+&lt;p&gt;MONET Technologies 株式会社、2020 年新卒入社の竹内です。&lt;/p&gt;
+&lt;p&gt;この記事では、技術ブログ開始に当たって、静的サイトジェネレータ Hexo を導入した話です。&lt;/p&gt;
+&lt;p&gt;全体構成のお話は&lt;a href=&#34;/tech-blog/2020/07/14/%E6%8A%80%E8%A1%93%E3%83%96%E3%83%AD%E3%82%B0%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F(%E6%A7%8B%E6%88%90%E7%B7%A8)/&#34; title=&#34;技術ブログ始めました(構成編)&#34;&gt;技術ブログ始めました(構成編)&lt;/a&gt;でお話しています。&lt;/p&gt;
+&lt;h2 id=&#34;docker使ってみます&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#docker使ってみます&#34;&gt;#&lt;/a&gt; Docker 使ってみます&lt;/h2&gt;
+&lt;p&gt;さて、それでは本題に入っていきましょう。&lt;br&gt;
+前提として、今回は Hexo 環境を Docker で構築します。&lt;br&gt;
+Docker 環境自体の構築については&lt;a href=&#34;https://awesome-linus.com/2019/08/17/mac-docker-install/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;こちら&lt;/a&gt;を参照しました。&lt;br&gt;
+筆者は今回初めて Docker を使ってみているので、変なところがあれば指摘していただければと思います。&lt;/p&gt;
+&lt;p&gt;流れとしては、&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;執筆用 Docker イメージのビルド&lt;/li&gt;
+&lt;li&gt;Docker コンテナの実行&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;といったところです。&lt;/p&gt;
+&lt;h2 id=&#34;執筆用dockerイメージのビルド&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#執筆用dockerイメージのビルド&#34;&gt;#&lt;/a&gt; 執筆用 Docker イメージのビルド&lt;/h2&gt;
+&lt;p&gt;まず、執筆用の Docker イメージをビルドするところから始まります。&lt;br&gt;
+Hexo 用の Docker イメージとして&lt;a href=&#34;https://github.com/spurin/docker-hexo&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;こちら&lt;/a&gt;を参考にしました。&lt;/p&gt;
+&lt;p&gt;Dockerfile をお好みに記述したら、記述したファイルの存在するディレクトリ上で、&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ docker build ./ -t docker-hexo
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;とすれば Docker イメージがビルドされます。&lt;/p&gt;
+&lt;p&gt;上記リンクで紹介した Docker ファイルでは&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Hexo 環境の導入&lt;/li&gt;
+&lt;li&gt;デプロイ用 Git の導入 (SSH キーの配置も含めて)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;まで行ってくれるようになっています。&lt;/p&gt;
+&lt;p&gt;今回は、&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;ブログのソースリポジトリを Github にプッシュ&lt;/li&gt;
+&lt;li&gt;Github Pages の公開用リポジトリを更新&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;という流れを自動化したかったので、Git の hook 機能を使って Hexo のコマンドを紐づけるようにしています。&lt;/p&gt;
+&lt;p&gt;具体的には、Hexo 用のデプロイコマンドを記述したファイル &lt;code&gt;pre_push&lt;/code&gt;  を作り、&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-language-sh&#34; mdui-tooltip=&#34;{content: &#39;language-sh&#39;}&#34;&gt;&lt;code class=&#34;language-language-sh&#34;&gt;#!/bin/sh
+
+echo &#34;---hooked hexo commands start---&#34;
+#hexo clean
+hexo deploy --generate
+echo &#34;---hooked hexo commands end---&#34;
+echo &#34;---If you get a &#34;&#34;hexo command does not exist&#34;&#34; error,&#34;
+echo &#34;it&#39;s seems You&#39; re not running git on Docker.---&#34;
+&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;~/.git/hooks/&lt;/code&gt;  以下に配置するようにしています。&lt;/p&gt;
+&lt;p&gt;今回は push する前という hook になっていますが、複数人で編集することを考えると、リモートリポジトリでのマージが終わったタイミングの方が良かったかもしれないと思っています。が、今回 Github がリモートリポジトリになっているので、リモートサーバ上での hook が実装できず、ひとまず push をトリガーにしています。&lt;br&gt;
+Gitlab など自前で Git サーバを立てている際には、&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;ブログを書く時にはまず執筆ブランチを切る&lt;/li&gt;
+&lt;li&gt;ブログ執筆後、執筆ブランチ上の変更を push&lt;/li&gt;
+&lt;li&gt;リモートリポジトリで執筆ブランチをマスターブランチにマージ&lt;/li&gt;
+&lt;li&gt;マージ後の hook で公開用リポジトリへソースをデプロイ&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;みたいな流れが安全そうです。&lt;/p&gt;
+&lt;h2 id=&#34;dockerコンテナの実行&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#dockerコンテナの実行&#34;&gt;#&lt;/a&gt; Docker コンテナの実行&lt;/h2&gt;
+&lt;p&gt;Docker イメージをビルドしたら、&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ docker create --name=hexo-domain.com \
+-e HEXO_SERVER_PORT=4000 \
+-e GIT_USER=&amp;quot;hoge&amp;quot; \
+-e GIT_EMAIL=&amp;quot;huga@sample.com&amp;quot; \
+-v /Path/To/Blog/app:/app \
+-p 4000:4000 \
+docker-hexo
+
+$ docker start hexo-domain.com &amp;amp;&amp;amp; docker logs --follow hexo-domain.com
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;でコンテナを作成し開始します。&lt;br&gt;
+これを行うことで、Docker コンテナ上の Hexo サーバが動き、&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://localhost:4000&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://localhost:4000&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;を参照することでローカルなサイトのプレビューができるようになります。&lt;/p&gt;
+&lt;h1 id=&#34;まとめ&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#まとめ&#34;&gt;#&lt;/a&gt; まとめ&lt;/h1&gt;
+&lt;p&gt;Docker を使うことによって、複数人が使うブログの執筆環境をある程度簡易に構築することができました。&lt;br&gt;
+便利なツールが増える一方、依存関係などで導入が面倒になることもよくあるので、Docker のようなツールもうまく使えるとよりハッピーになりそうですね。&lt;/p&gt;
+&lt;p&gt;&lt;s&gt;時代の主流は SaaS でローカルに環境を整える場面も少なくなってきそうですが。。。&lt;/s&gt;&lt;/p&gt;
+</content>
+        <category term="hexo" />
+        <updated>2020-07-15T17:19:39.000Z</updated>
+    </entry>
+    <entry>
+        <id>https://monet-technologies-com.github.io/tech-blog/2020/07/14/%E6%8A%80%E8%A1%93%E3%83%96%E3%83%AD%E3%82%B0%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F(%E6%A7%8B%E6%88%90%E7%B7%A8)/</id>
+        <title>技術ブログ始めました(構成編)</title>
+        <link rel="alternate" href="https://monet-technologies-com.github.io/tech-blog/2020/07/14/%E6%8A%80%E8%A1%93%E3%83%96%E3%83%AD%E3%82%B0%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F(%E6%A7%8B%E6%88%90%E7%B7%A8)/"/>
+        <content type="html">&lt;h1 id=&#34;はじめに&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#はじめに&#34;&gt;#&lt;/a&gt; はじめに&lt;/h1&gt;
+&lt;p&gt;MONET Technologies 株式会社、2020 年新卒入社の竹内です。&lt;/p&gt;
+&lt;p&gt;この度、弊社でも社員の技術力向上 &amp;amp; アウトプットのために、技術ブログを開設する運びとなりました。&lt;/p&gt;
+&lt;p&gt;記念すべき 1 回目の記事は、この技術ブログの立ち上げについて一通り書きます。&lt;/p&gt;
+&lt;h2 id=&#34;技術ブログの選定&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#技術ブログの選定&#34;&gt;#&lt;/a&gt; 技術ブログの選定&lt;/h2&gt;
+&lt;p&gt;技術ブログを作成するに当たって考えたのは、&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;サーバの維持コスト&lt;/li&gt;
+&lt;li&gt;記事の管理コスト&lt;/li&gt;
+&lt;li&gt;執筆環境&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;の 3 点です。技術ブログを公開するというということは当然 Web サーバが必要になるわけですが、そこにコストやメンテナンスが必要になると継続するのが面倒です。なので、何か外部のサービスを使って公開したいという要求があります。&lt;br&gt;
+また、ページを編集したら、編集履歴や差分まで管理したいです。&lt;br&gt;
+更に、執筆環境としては、普段コードを書いたりするエディタを使ってそのまま書きたいですよね。&lt;/p&gt;
+&lt;p&gt;ということで、今回は静的サイトジェネレータ&lt;a href=&#34;https://hexo.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt; Hexo&lt;/a&gt; と&lt;a href=&#34;https://pages.github.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt; Github Pages&lt;/a&gt; を使って技術ブログを作ってみることにしました。ただ、今回用いる Hexo は Node.js で作られており、バージョン管理などが面倒です。そこで、今回は、&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;生成環境：Docker 上の Hexo&lt;/li&gt;
+&lt;li&gt;執筆環境：Visual Studio Code などの各自のエディタ&lt;/li&gt;
+&lt;li&gt;公開環境：Github Pages&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;という構成で全体を組みました (もちろん執筆環境はお好きなエディタを使ってください)。&lt;/p&gt;
+&lt;p&gt;全体構成のイメージはこんな感じです。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;2020-08-06T103219.png&#34; alt=&#34;2020-08-06T103219&#34;&gt;&lt;/p&gt;
+&lt;p&gt;次回からそれぞれの環境について執筆していきます。&lt;/p&gt;
+&lt;h1 id=&#34;まとめ&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#まとめ&#34;&gt;#&lt;/a&gt; まとめ&lt;/h1&gt;
+&lt;p&gt;技術ブログを始めるので皆様ゆるゆるとお付き合いください！&lt;/p&gt;
+</content>
+        <category term="hexo" />
+        <category term="vscode" />
+        <category term="github" />
+        <category term="docker" />
+        <updated>2020-07-14T05:09:45.000Z</updated>
+    </entry>
+</feed>

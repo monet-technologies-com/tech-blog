@@ -1,0 +1,21 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "MONET Tech-Blog • All posts by \"github\" tag",
+    "description": "This is a tech-blog of MONET-Technologies",
+    "home_page_url": "https://monet-technologies-com.github.io/tech-blog",
+    "items": [
+        {
+            "id": "https://monet-technologies-com.github.io/tech-blog/2020/07/14/%E6%8A%80%E8%A1%93%E3%83%96%E3%83%AD%E3%82%B0%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F(%E6%A7%8B%E6%88%90%E7%B7%A8)/",
+            "url": "https://monet-technologies-com.github.io/tech-blog/2020/07/14/%E6%8A%80%E8%A1%93%E3%83%96%E3%83%AD%E3%82%B0%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F(%E6%A7%8B%E6%88%90%E7%B7%A8)/",
+            "title": "技術ブログ始めました(構成編)",
+            "date_published": "2020-07-14T05:09:45.000Z",
+            "content_html": "<h1 id=\"はじめに\"><a class=\"markdownIt-Anchor\" href=\"#はじめに\">#</a> はじめに</h1>\n<p>MONET Technologies 株式会社、2020 年新卒入社の竹内です。</p>\n<p>この度、弊社でも社員の技術力向上 &amp; アウトプットのために、技術ブログを開設する運びとなりました。</p>\n<p>記念すべき 1 回目の記事は、この技術ブログの立ち上げについて一通り書きます。</p>\n<h2 id=\"技術ブログの選定\"><a class=\"markdownIt-Anchor\" href=\"#技術ブログの選定\">#</a> 技術ブログの選定</h2>\n<p>技術ブログを作成するに当たって考えたのは、</p>\n<ol>\n<li>サーバの維持コスト</li>\n<li>記事の管理コスト</li>\n<li>執筆環境</li>\n</ol>\n<p>の 3 点です。技術ブログを公開するというということは当然 Web サーバが必要になるわけですが、そこにコストやメンテナンスが必要になると継続するのが面倒です。なので、何か外部のサービスを使って公開したいという要求があります。<br>\nまた、ページを編集したら、編集履歴や差分まで管理したいです。<br>\n更に、執筆環境としては、普段コードを書いたりするエディタを使ってそのまま書きたいですよね。</p>\n<p>ということで、今回は静的サイトジェネレータ<a href=\"https://hexo.io/\" target=\"_blank\" rel=\"noopener\"> Hexo</a> と<a href=\"https://pages.github.com/\" target=\"_blank\" rel=\"noopener\"> Github Pages</a> を使って技術ブログを作ってみることにしました。ただ、今回用いる Hexo は Node.js で作られており、バージョン管理などが面倒です。そこで、今回は、</p>\n<ul>\n<li>生成環境：Docker 上の Hexo</li>\n<li>執筆環境：Visual Studio Code などの各自のエディタ</li>\n<li>公開環境：Github Pages</li>\n</ul>\n<p>という構成で全体を組みました (もちろん執筆環境はお好きなエディタを使ってください)。</p>\n<p>全体構成のイメージはこんな感じです。</p>\n<p><img src=\"2020-08-06T103219.png\" alt=\"2020-08-06T103219\"></p>\n<p>次回からそれぞれの環境について執筆していきます。</p>\n<h1 id=\"まとめ\"><a class=\"markdownIt-Anchor\" href=\"#まとめ\">#</a> まとめ</h1>\n<p>技術ブログを始めるので皆様ゆるゆるとお付き合いください！</p>\n",
+            "tags": [
+                "hexo",
+                "vscode",
+                "github",
+                "docker"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://monet-technologies-com.github.io/tech-blog</id>
+    <title>MONET Tech-Blog • Posts by &#34;github&#34; tag</title>
+    <link href="https://monet-technologies-com.github.io/tech-blog" />
+    <updated>2020-07-14T05:09:45.000Z</updated>
+    <category term="Arch Linux" />
+    <category term="Linux" />
+    <category term="hexo" />
+    <category term="vscode" />
+    <category term="github" />
+    <category term="docker" />
+    <entry>
+        <id>https://monet-technologies-com.github.io/tech-blog/2020/07/14/%E6%8A%80%E8%A1%93%E3%83%96%E3%83%AD%E3%82%B0%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F(%E6%A7%8B%E6%88%90%E7%B7%A8)/</id>
+        <title>技術ブログ始めました(構成編)</title>
+        <link rel="alternate" href="https://monet-technologies-com.github.io/tech-blog/2020/07/14/%E6%8A%80%E8%A1%93%E3%83%96%E3%83%AD%E3%82%B0%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F(%E6%A7%8B%E6%88%90%E7%B7%A8)/"/>
+        <content type="html">&lt;h1 id=&#34;はじめに&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#はじめに&#34;&gt;#&lt;/a&gt; はじめに&lt;/h1&gt;
+&lt;p&gt;MONET Technologies 株式会社、2020 年新卒入社の竹内です。&lt;/p&gt;
+&lt;p&gt;この度、弊社でも社員の技術力向上 &amp;amp; アウトプットのために、技術ブログを開設する運びとなりました。&lt;/p&gt;
+&lt;p&gt;記念すべき 1 回目の記事は、この技術ブログの立ち上げについて一通り書きます。&lt;/p&gt;
+&lt;h2 id=&#34;技術ブログの選定&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#技術ブログの選定&#34;&gt;#&lt;/a&gt; 技術ブログの選定&lt;/h2&gt;
+&lt;p&gt;技術ブログを作成するに当たって考えたのは、&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;サーバの維持コスト&lt;/li&gt;
+&lt;li&gt;記事の管理コスト&lt;/li&gt;
+&lt;li&gt;執筆環境&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;の 3 点です。技術ブログを公開するというということは当然 Web サーバが必要になるわけですが、そこにコストやメンテナンスが必要になると継続するのが面倒です。なので、何か外部のサービスを使って公開したいという要求があります。&lt;br&gt;
+また、ページを編集したら、編集履歴や差分まで管理したいです。&lt;br&gt;
+更に、執筆環境としては、普段コードを書いたりするエディタを使ってそのまま書きたいですよね。&lt;/p&gt;
+&lt;p&gt;ということで、今回は静的サイトジェネレータ&lt;a href=&#34;https://hexo.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt; Hexo&lt;/a&gt; と&lt;a href=&#34;https://pages.github.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt; Github Pages&lt;/a&gt; を使って技術ブログを作ってみることにしました。ただ、今回用いる Hexo は Node.js で作られており、バージョン管理などが面倒です。そこで、今回は、&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;生成環境：Docker 上の Hexo&lt;/li&gt;
+&lt;li&gt;執筆環境：Visual Studio Code などの各自のエディタ&lt;/li&gt;
+&lt;li&gt;公開環境：Github Pages&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;という構成で全体を組みました (もちろん執筆環境はお好きなエディタを使ってください)。&lt;/p&gt;
+&lt;p&gt;全体構成のイメージはこんな感じです。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;2020-08-06T103219.png&#34; alt=&#34;2020-08-06T103219&#34;&gt;&lt;/p&gt;
+&lt;p&gt;次回からそれぞれの環境について執筆していきます。&lt;/p&gt;
+&lt;h1 id=&#34;まとめ&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#まとめ&#34;&gt;#&lt;/a&gt; まとめ&lt;/h1&gt;
+&lt;p&gt;技術ブログを始めるので皆様ゆるゆるとお付き合いください！&lt;/p&gt;
+</content>
+        <category term="hexo" />
+        <category term="vscode" />
+        <category term="github" />
+        <category term="docker" />
+        <updated>2020-07-14T05:09:45.000Z</updated>
+    </entry>
+</feed>

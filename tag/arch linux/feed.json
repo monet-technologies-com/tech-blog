@@ -1,0 +1,19 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "MONET Tech-Blog • All posts by \"arch linux\" tag",
+    "description": "This is a tech-blog of MONET-Technologies",
+    "home_page_url": "https://monet-technologies-com.github.io/tech-blog",
+    "items": [
+        {
+            "id": "https://monet-technologies-com.github.io/tech-blog/2020/08/18/Arch%20Linux%E3%81%AF%E3%81%84%E3%81%84%E3%81%9E%E3%81%A8%E3%81%84%E3%81%86%E8%A9%B1/",
+            "url": "https://monet-technologies-com.github.io/tech-blog/2020/08/18/Arch%20Linux%E3%81%AF%E3%81%84%E3%81%84%E3%81%9E%E3%81%A8%E3%81%84%E3%81%86%E8%A9%B1/",
+            "title": "Arch Linuxはいいぞという話",
+            "date_published": "2020-08-18T03:00:00.000Z",
+            "content_html": "<h1 id=\"はじめに\"><a class=\"markdownIt-Anchor\" href=\"#はじめに\">#</a> はじめに</h1>\n<p>MONET Technologies 株式会社、2020 年新卒入社の竹内です。</p>\n<p>この記事では、自分のおすすめする　Linux ディストリビューションである Arch Linux についてちょろっと書かせて頂きます。</p>\n<h2 id=\"arch-linuxが好きです\"><a class=\"markdownIt-Anchor\" href=\"#arch-linuxが好きです\">#</a> Arch Linux が好きです。</h2>\n<p>エンジニアなら一度は辿り着く境地、 <strong>「オレオレカスタマイズしたマイスイート PC を作りたい」</strong></p>\n<p>自分はハードウェアがそこそこの PC に、どんなソフトを載せるか、というところが好きです<br>\n (自作 PC 勢のお話も是非聴いてみたいですが)。</p>\n<p>そんな自分が大学生の時からお世話になっているのが、<br>\n<a href=\"https://www.archlinux.jp/\" target=\"_blank\" rel=\"noopener\">Arch Linux</a> という Linux のディストリビューションです。</p>\n<h2 id=\"何がいいの\"><a class=\"markdownIt-Anchor\" href=\"#何がいいの\">#</a> 何がいいの？</h2>\n<ul>\n<li>めちゃくちゃ軽量 &amp; 爆速 (個人の感想です)</li>\n<li>パッケージマネージャが優秀 (ほとんどのソフトを一つのパッケージマネージャで完結できて嬉しい)</li>\n<li>最初にミニマムな要素 (CLI 環境) しか入っていないので、ウィンドウマネージャなどを自分の好みで入れられる</li>\n</ul>\n<p>この辺が自分のツボです。特に、高校生の頃に買った弱い PC に Arch を入れた時、あんなに Windows が重かったのが爆速で動くようになった感動を今でも忘れられません。</p>\n<h2 id=\"まぁ諸説あるけど\"><a class=\"markdownIt-Anchor\" href=\"#まぁ諸説あるけど\">#</a> まぁ諸説あるけど</h2>\n<p>とはいえ、確かに、 <strong>少しメンテナンスが面倒くさい</strong> こともあるかもしれません。<br>\n特に、Arch には始め殆どの要素は入っていない状態からスタートするので、デスクトップ環境を構築するまでが面倒だったり、カーネルのアップデートで起動しなくなったり、ということも無くはないです。</p>\n<p>が、手のかけた子ほど可愛い、そう思いませんか？(個人の意見です)</p>\n<p>何か問題が起きたとしても、<a href=\"https://wiki.archlinux.jp/index.php/%E3%83%A1%E3%82%A4%E3%83%B3%E3%83%9A%E3%83%BC%E3%82%B8\" target=\"_blank\" rel=\"noopener\">Arch Wiki</a> がかなり優秀なので、大抵なんとかなります。</p>\n<p>余談ですが、Ubuntu など別の Linux ディストリビューションを使っても Arch Wiki の情報で助かったりするので、優秀なドキュメントになっているなと感じます。</p>\n<h2 id=\"おすすめのウィンドウマネージャ\"><a class=\"markdownIt-Anchor\" href=\"#おすすめのウィンドウマネージャ\">#</a> おすすめのウィンドウマネージャ</h2>\n<p>せっかくなので、Arch Linux 上での構成を少しだけお話します。</p>\n<p>自分はウィンドウを画面一杯、もしくは二つのウィンドウを右と左に分けて、と言った感じで敷き詰めるのが好きなので、タイル型のウィンドウマネージャが好きです。</p>\n<p>自分の PC に入れているのは、<a href=\"https://awesomewm.org/\" target=\"_blank\" rel=\"noopener\">awesome</a> というウィンドウマネージャです。<br>\nこちらを使うと、ショートカットキーで</p>\n<ul>\n<li>ウィンドウの配置</li>\n<li>フォーカスの切替</li>\n</ul>\n<p>などが簡単にできるので好みです。</p>\n<p><img src=\"2020-08-18T144707.png\" alt=\"2020-08-18T144707\"></p>\n<p>さらに、google-chrome の<a href=\"https://support.google.com/chrome/answer/1649523?co=GENIE.Platform%3DDesktop&amp;hl=ja\" target=\"_blank\" rel=\"noopener\"> remote desktop</a> も入るので、自宅の PC に Arch Linux を入れて、リモートデスクトップを経由して手元の PC から作業、なんてこともできます。</p>\n<p>リモートデスクトップの割に爆速で、中でどんな仕組みになっているか気になっちゃいますね。。。</p>\n<h1 id=\"まとめ\"><a class=\"markdownIt-Anchor\" href=\"#まとめ\">#</a> まとめ</h1>\n<p>Arch Linux はいいぞ。</p>\n",
+            "tags": [
+                "Arch Linux",
+                "Linux"
+            ]
+        }
+    ]
+}

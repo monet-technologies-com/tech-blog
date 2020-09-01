@@ -1,0 +1,998 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+
+
+
+<head>
+  
+    <!-- Custom Head Before -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-175664626-1"></script>
+<script>
+  //暫定的な参照管理
+  if(window.location.hostname!="localhost"){
+    var result = prompt("認証コードを入力してください");
+    if(result=="MonetecH"){
+      console.log("code check : ok");
+    }
+    else{
+      console.log("code check : error");
+      window.location = "https://monet-technologies-com.github.io/"
+    }
+  }
+  else{
+    console.log("code check : ignored");
+  }
+
+  
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-175664626-1');
+</script>
+
+  
+  <script>
+    window.themeRuntime = {
+      root: "/tech-blog/",
+      scriptsMap: {},
+      init: {
+        status: false
+      },
+      commentRest: {
+        status: false
+      },
+      versions: {
+        theme: "2.1.0",
+        mdui: "0.4.0",
+        fetch: "3.0.0",
+        es6promise: "4.2.5+7f2b526d",
+        lightgallery: "1.0.1",
+        smoothscroll: "15.2.0"
+      }
+      
+    };
+    console.info("%cCopyright © 2018 - " + new Date().getFullYear() +" Halyul\n"+'Theme Version: ' + themeRuntime.versions.theme +'%c\nhttps://github.com/Halyul/hexo-theme-mdui',"font-size: 14px;color: #3F51B5;","color: #448AFF;text-decoration: none");
+  </script>
+  <!--
+        © HEXO MDUI Theme
+        https://github.com/Halyul/hexo-theme-mdui
+        -->
+
+  <meta charset="UTF-8">
+  <title>ルート検索OSS (OSRM) の予測精度を調べました - MONET Tech-Blog</title>
+
+  <!-- Favicons -->
+  <link rel="icon shortcut" type="image/ico" href="/tech-blog/images/favicon.png">
+  <link rel="icon" sizes="192x192" href="/tech-blog/images/favicon.png">
+  <link rel="apple-touch-icon" href="/tech-blog/images/favicon.png">
+
+  <!-- Meta & Info -->
+  <meta http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  <meta name="theme-color" content="#fff">
+
+  <meta name="author" content="MONET Technologies">
+  
+      <meta name="description" content="This is a tech-blog of MONET-Technologies">
+  
+  <meta name="keywords" content="blog, maas, monet, tech">
+
+  <!--iOS -->
+  <meta name="apple-mobile-web-app-title" content="MONET Tech-Blog">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="480">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- The Open Graph protocol -->
+  <meta property="og:url" content="https://monet-technologies-com.github.io/tech-blog">
+  <meta property="og:type" content="blog">
+  <meta property="og:title" content="ルート検索OSS (OSRM) の予測精度を調べました - MONET Tech-Blog | MONET Tech-Blog">
+  <meta property="og:image" content="images/favicon.png" />
+  
+    <meta property="og:description" content="This is a tech-blog of MONET-Technologies">
+  
+
+  
+
+  
+
+  <!-- Import CSS -->
+  
+    
+<link rel="stylesheet" href="/tech-blog/css/mdui.css">
+
+  
+
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body class="mdui-drawer-body-left mdui-theme-primary-teal mdui-theme-accent-light-blue">
+  
+    <!-- Custom Body Before -->
+    
+  
+
+  <style>
+    #spinner {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+          opacity: 1;
+      -webkit-transition: opacity 0.3s cubic-bezier(0, 0, 0.2, 1);
+          transition: opacity 0.3s cubic-bezier(0, 0, 0.2, 1);
+    }
+    main {
+      opacity: 0;
+      -webkit-transition: opacity 0.3s cubic-bezier(0, 0, 0.2, 1);
+      transition: opacity 0.3s cubic-bezier(0, 0, 0.2, 1);
+      display: none;
+    }
+  </style>
+  <div id="spinner">
+    <style>
+      .spinner {
+
+      -webkit-animation: rotator 1.4s linear infinite;
+              animation: rotator 1.4s linear infinite;
+      }
+
+      @-webkit-keyframes rotator {
+      0% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(270deg);
+                transform: rotate(270deg);
+      }
+      }
+
+      @keyframes rotator {
+      0% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(270deg);
+                transform: rotate(270deg);
+      }
+      }
+
+      .path {
+      stroke-dasharray: 187;
+      stroke-dashoffset: 0;
+      -webkit-transform-origin: center;
+              transform-origin: center;
+      -webkit-animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
+              animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
+      }
+
+      @-webkit-keyframes colors {
+      0% {
+        stroke: #4285F4;
+      }
+      25% {
+        stroke: #DE3E35;
+      }
+      50% {
+        stroke: #F7C223;
+      }
+      75% {
+        stroke: #1B9A59;
+      }
+      100% {
+        stroke: #4285F4;
+      }
+      }
+
+      @keyframes colors {
+      0% {
+        stroke: #4285F4;
+      }
+      25% {
+        stroke: #DE3E35;
+      }
+      50% {
+        stroke: #F7C223;
+      }
+      75% {
+        stroke: #1B9A59;
+      }
+      100% {
+        stroke: #4285F4;
+      }
+      }
+
+      @-webkit-keyframes dash {
+      0% {
+        stroke-dashoffset: 187;
+      }
+      50% {
+        stroke-dashoffset: 46.75;
+        -webkit-transform: rotate(135deg);
+                transform: rotate(135deg);
+      }
+      100% {
+        stroke-dashoffset: 187;
+        -webkit-transform: rotate(450deg);
+                transform: rotate(450deg);
+      }
+      }
+
+      @keyframes dash {
+      0% {
+        stroke-dashoffset: 187;
+      }
+      50% {
+        stroke-dashoffset: 46.75;
+        -webkit-transform: rotate(135deg);
+                transform: rotate(135deg);
+      }
+      100% {
+        stroke-dashoffset: 187;
+        -webkit-transform: rotate(450deg);
+                transform: rotate(450deg);
+      }
+      }
+    </style>
+    <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+      <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+    </svg>
+  </div>
+
+  <main>
+    <div class="mdui-appbar mdui-appbar-fixed mdui-color-white mdui-shadow-0 theme-appbar">
+  <div class="mdui-toolbar theme-toolbar-top">
+    
+      <a href="/tech-blog/" class="mdui-btn mdui-btn-icon mdui-ripple theme-appbar__burger theme-appbar__burger--arrow">
+        <i class="mdui-icon">
+          <span></span>
+        </i>
+      </a>
+    
+    <div class="mdui-toolbar-spacer"></div>
+    <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-ripple theme-appbar__mode-switch">
+      <i class="mdui-icon material-icons  theme-appbar__bright-mode">&#xe1ac;</i>
+      <i class="mdui-icon material-icons  theme-appbar__dark-mode" style="display: none;">&#xe3a7;</i>
+    </a>
+  </div>
+  <div class="mdui-toolbar theme-toolbar-bottom">
+    <span class="theme-toolbar-bottom__title">MONET Tech-Blog</span>
+    
+      <a href="/tech-blog/search.html" class="mdui-textfield-icon mdui-btn mdui-btn-icon theme-toolbar-bottom__search">
+        <i class="mdui-icon material-icons">&#xe8b6;</i>
+      </a>
+    
+  </div>
+  <div class="mdui-progress theme-appbar__progress" id="progressBar">
+    <div class="mdui-progress-indeterminate"></div>
+  </div>
+</div>
+
+    <div class="mdui-drawer mdui-drawer-full-height theme-drawer" id="drawer">
+  <!-- header -->
+  <div class="theme-drawer__header">
+  <div class="theme-drawer__header__layer-1">
+    <div class="mdui-toolbar theme-toolbar-top">
+      
+        <a href="javascript:;" class="mdui-btn mdui-btn-icon mdui-ripple theme-appbar__burger theme-appbar__burger--drawer theme-appbar__burger--arrow" id="drawer-back">
+          <i class="mdui-icon">
+            <span></span>
+          </i>
+        </a>
+      
+    </div>
+    <div class="mdui-toolbar theme-toolbar-bottom">
+      <span class="theme-toolbar-bottom__title">MONET Tech-Blog</span>
+    </div>
+  </div>
+  <div class="theme-drawer__header__layer-2" style="background-image: url(/tech-blog/images/bg.png)">
+    <img class="mdui-img-circle theme-drawer__header__layer-2__user__avatar" src="/tech-blog/images/avatar.png"/>
+    <div class="theme-drawer__header__layer-2__user__info">
+      <div class="theme-drawer__header__layer-2__user__info__author mdui-text-color-white-text">
+        MONET Technologies
+      </div>
+      <div class="theme-drawer__header__layer-2__user__info__slogan mdui-text-color-white-secondary">
+        全てのモビリティを技術で幸せに。
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="theme-drawer__warpper">
+    <!-- content -->
+    <div class="theme-drawer__warpper__content">
+  <ul class="mdui-list">
+    <a href="/tech-blog/" class="mdui-list-item mdui-ripple mdui-ripple-white">
+      <i class="mdui-list-item-icon mdui-icon material-icons">&#xe88a;</i>
+      <div class="mdui-list-item-content">Index</div>
+    </a>
+    <!--<a href="/tech-blog/archives/" class="mdui-list-item mdui-ripple mdui-ripple-white">
+      <i class="mdui-list-item-icon mdui-icon material-icons">&#xe149;</i>
+      <div class="mdui-list-item-content">Archives</div>
+    </a>-->
+    <ul class="mdui-list mdui-collapse" mdui-collapse="{accordion: true}" mdui-collapse>
+      
+        <div class="mdui-collapse-item ">
+          <div class="mdui-collapse-item-header mdui-list-item mdui-ripple mdui-ripple-white">
+            <i class="mdui-list-item-icon mdui-icon material-icons">&#xe86e;</i>
+            <div class="mdui-list-item-content">Categories</div>
+            <i class="mdui-collapse-item-arrow mdui-icon material-icons">&#xe5c5;</i>
+          </div>
+          <div class="mdui-collapse-item-body mdui-list">
+            
+              <a href="/tech-blog/categories/%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E6%8A%80%E8%A1%93/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                おすすめ技術
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
+              </a>
+            
+              <a href="/tech-blog/categories/%E3%83%96%E3%83%AD%E3%82%B0%E7%92%B0%E5%A2%83/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                ブログ環境
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">3</span>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+        <div class="mdui-collapse-item ">
+          <div class="mdui-collapse-item-header mdui-list-item mdui-ripple mdui-ripple-white">
+            <i class="mdui-list-item-icon mdui-icon fa fa-tags mdui-text-center"></i>
+            <div class="mdui-list-item-content">Tags</div>
+            <i class="mdui-collapse-item-arrow mdui-icon material-icons">&#xe5c5;</i>
+          </div>
+          <div class="mdui-collapse-item-body mdui-list">
+            
+              <a href="/tech-blog/tags/hexo/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                hexo
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">3</span>
+              </a>
+            
+              <a href="/tech-blog/tags/vscode/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                vscode
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">2</span>
+              </a>
+            
+              <a href="/tech-blog/tags/Arch-Linux/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                Arch Linux
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
+              </a>
+            
+              <a href="/tech-blog/tags/Linux/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                Linux
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
+              </a>
+            
+              <a href="/tech-blog/tags/github/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                github
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
+              </a>
+            
+              <a href="/tech-blog/tags/docker/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                docker
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
+              </a>
+            
+          </div>
+        </div>
+      
+      <div class="mdui-collapse-item ">
+        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple mdui-ripple-white">
+          <i class="mdui-list-item-icon mdui-icon material-icons">&#xe916;</i>
+          <div class="mdui-list-item-content">Years</div>
+          <i class="mdui-collapse-item-arrow mdui-icon material-icons">&#xe5c5;</i>
+        </div>
+        <div class="mdui-collapse-item-body mdui-list">
+          
+          
+            <a href="/tech-blog/archives/2020/" class="mdui-list-item mdui-ripple">
+              2020
+            </a>
+          
+        </div>
+      </div>
+    </ul>
+  </ul>
+  
+    <div class="mdui-divider"></div>
+    <ul class="mdui-list" mdui-collapse="{accordion: true}" mdui-collapse>
+      
+    </ul>
+  
+</div>
+
+    <div class="theme-spacer"></div>
+    <!-- footer -->
+    <div class="theme-drawer__warpper__footer">
+  <div class="mdui-typo mdui-typo-caption-opacity">
+    <!--Powered by <a href="http://hexo.io" target="_blank">Hexo</a>
+    <br />
+    Theme - <a href="//github.com/Halyul/hexo-theme-mdui" target="_blank">Halyul/MDUI</a>
+    <br />-->
+    <span>
+      Copyright ©
+      <span year></span><br>
+      <a href="//www.monet-technologies.com" target="_blank">MONET Technologies</a><br>
+      <a href="https://monet-technologies-com.github.io/tech-blog/license.html" >LICENSE</a>
+    </span>
+    
+    
+      <br />
+      <span>
+        Last Updated: 2020-09-01
+      </span>
+    
+    
+  </div>
+</div>
+<script type="text/javascript">
+  var copyrightNow = new Date().getFullYear();
+  var textContent = document.querySelector('span[year]')
+  
+    textContent.textContent = copyrightNow
+  
+</script>
+
+  </div>
+</div>
+
+    <div id="top"></div>
+
+    
+<script src="/tech-blog/js/lightgallery.min.js"></script>
+
+
+    <div id="barba-wrapper">
+      <div class="barba-container"  data-namespace="post">
+        
+
+
+
+  
+<link rel="stylesheet" href="/tech-blog/css/prism/darcula.min.css">
+
+
+
+  
+<link rel="stylesheet" href="/tech-blog/css/prism/line-number.min.css">
+
+
+
+<div class="theme-post">
+  <div class="theme-post__background mdui-color-theme"></div>
+  <div class="theme-post__header mdui-color-theme">
+    <div class="theme-post__header__title mdui-text-truncate">
+      ルート検索OSS (OSRM) の予測精度を調べました
+    </div>
+    <div class="theme-spacer"></div>
+    <div class="theme-post__header__actions mdui-valign">
+      <div>
+        <span>Posted: </span>
+        <span style="float: right">2020-08-31 04:06:55</span>
+        
+        <br>
+          <span>Last Modified: </span>
+          <span>2020-09-01 10:10:12</span>
+        
+      </div>
+      
+
+      
+  <div class="theme-post__share">
+    <button class="mdui-btn mdui-ripple mdui-btn-icon" mdui-menu="{target: '#post-share-menu'}">
+      <i class="mdui-icon material-icons">&#xe80d;</i>
+    </button>
+
+    <ul class="mdui-menu" id="post-share-menu">
+
+      
+        <li class="mdui-menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://monet-technologies-com.github.io/tech-blog/tech-blog//tech-blog/2020/08/30/%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2OSS%20(OSRM)%20%E3%81%AE%E4%BA%88%E6%B8%AC%E7%B2%BE%E5%BA%A6%E3%82%92%E8%AA%BF%E3%81%B9%E3%81%BE%E3%81%97%E3%81%9F/index.html" target="_blank" class="mdui-ripple">
+                Share to Facebook
+            </a>
+        </li>
+      
+
+      
+        <li class="mdui-menu-item">
+            <a href="https://plus.google.com/share?url=https://monet-technologies-com.github.io/tech-blog/tech-blog//tech-blog/2020/08/30/%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2OSS%20(OSRM)%20%E3%81%AE%E4%BA%88%E6%B8%AC%E7%B2%BE%E5%BA%A6%E3%82%92%E8%AA%BF%E3%81%B9%E3%81%BE%E3%81%97%E3%81%9F/index.html" target="_blank" class="mdui-ripple">
+                Share to Google+
+            </a>
+        </li>
+      
+
+      
+        <li class="mdui-menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://monet-technologies-com.github.io/tech-blog/tech-blog//tech-blog/2020/08/30/%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2OSS%20(OSRM)%20%E3%81%AE%E4%BA%88%E6%B8%AC%E7%B2%BE%E5%BA%A6%E3%82%92%E8%AA%BF%E3%81%B9%E3%81%BE%E3%81%97%E3%81%9F/index.html&title=ルート検索OSS (OSRM) の予測精度を調べました" target="_blank" class="mdui-ripple">
+                Share to Linkedin
+            </a>
+        </li>
+      
+
+      
+
+      
+
+      
+        <li class="mdui-menu-item">
+            <a href="https://twitter.com/intent/tweet?text=ルート検索OSS (OSRM) の予測精度を調べました&url=https://monet-technologies-com.github.io/tech-blog/tech-blog//tech-blog/2020/08/30/%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2OSS%20(OSRM)%20%E3%81%AE%E4%BA%88%E6%B8%AC%E7%B2%BE%E5%BA%A6%E3%82%92%E8%AA%BF%E3%81%B9%E3%81%BE%E3%81%97%E3%81%9F/index.html&via=MONET Technologies" target="_blank" class="mdui-ripple">
+                Share to Twitter
+            </a>
+        </li>
+      
+
+      
+
+    </ul>
+  </div>
+
+
+    </div>
+  </div>
+  <div class="theme-post__warpper
+    
+  ">
+    <div class="theme-post__warpper__container">
+      <article class="mdui-card theme-post__card mdui-hoverable">
+        <section class="theme-post__card__warning">
+          This article was last modified
+          <span id="content-warning"></span>
+          days ago.
+          The content of this post may be outdated!
+        </section>
+        
+        
+        <section class="mdui-typo theme-post__card__content">
+          <p>システム部の登山担当太田です<br>
+山はいいぞ</p>
+<p>今回はルート検索の OSS である OSRM を検証した話です<br>
+地図データには OSM を用いています<br>
+導入は別で書きます</p>
+<h1 id="前談"><a class="markdownIt-Anchor" href="#前談">#</a> 前談</h1>
+<h2 id="ルート検索のコスト削減"><a class="markdownIt-Anchor" href="#ルート検索のコスト削減">#</a> ルート検索のコスト削減</h2>
+<p>MONET ではオンデマンドバスサービスを提供していますが<br>
+その裏ではルート検索による時間取得のロジックが何度もはしっています<br>
+マッチングの最適化など今後進めていくにあたってもルート検索のコストは抑えたいところです<br>
+そこで信頼性をある程度担保して低コストなルート検索できないかな？<br>
+ということで OSS の有効性を検証しました</p>
+<h2 id="osmとは"><a class="markdownIt-Anchor" href="#osmとは">#</a> OSM とは</h2>
+<p>素晴らしい取り組みとして Open Street Map (OSM) という地理情報をみんなで作って行こうぜ！オープンライセンスで誰にでも使えるようにしようぜ！というイカしたプロジェクトがあります<br>
+ Open Street Map では所々足りていない情報はありますが<br>
+道路のクラス分けや店舗の情報までオープンライセンスと考えれば十分すぎるほどの地理データが利用できます<br>
+<img src="2020-08-31T130832.png" alt="2020-08-31T130832"></p>
+<div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable ">
+<thead>
+<tr>
+<th></th>
+<th>OSM で利用可能な情報</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>○</td>
+<td>道路分類，建物分類，各名称</td>
+</tr>
+<tr>
+<td>×</td>
+<td>公共交通機関，交通量</td>
+</tr>
+</tbody>
+</table></div>
+ <br>
+<p>もちろん自分たちで編集ができ，自宅の周りとか眺めてポチポチするだけで世界の地理データベース作成に貢献できるのでぜひやってみてください！</p>
+<h2 id="osrmとは"><a class="markdownIt-Anchor" href="#osrmとは">#</a> OSRM とは</h2>
+<p>ルート検索エンジンの OSS です.<br>
+ 中身のアルゴリズムは multi dikstra で OSM の地図情報を基に<br>
+最短ルートを決定します. (他のアルゴリズムも使用可)<br>
+ 高速道路を省いたり，U ターンを禁止したりなど<br>
+痒いところの設定までできてしまう優れものです.<br>
+Mapbox でも採用されていたりします.<a href="https://blog.mapbox.com/mapbox-directions-powered-by-osrm-4-8-1-cf2c45ae9aa8" target="_blank" rel="noopener"> ブログ記事</a><br>
+ルート検索だけでなく<br>
+ MapBox でも採用されていたりします<br>
+このルート検索エンジン使ってどれくらい正しく予測できるの？<br>
+というのが今回のお題です</p>
+<h2 id="osrmってどんな感じで動いてますん"><a class="markdownIt-Anchor" href="#osrmってどんな感じで動いてますん">#</a> OSRM ってどんな感じで動いてますん</h2>
+<p>実装までは<a href="">他記事</a>でも紹介されているので省きますが<br>
+ザクっとこんな感じです</p>
+<ol>
+<li>OSM の最新地図情報を保存</li>
+<li>lua ファイル定義に従って重み付けされたグラフを作成</li>
+<li>HTTP サーバーを起動してリクエスト</li>
+</ol>
+<h1 id="検証"><a class="markdownIt-Anchor" href="#検証">#</a> 検証</h1>
+<p>最初に東京都内の限られた範囲でランダムに 2 点を<br>
+限られた範囲でのルート検索制度を検証しました.<br>
+ 検証範囲は以下になります.<br>
+<img src="2020-09-01T095105.png" alt="2020-09-01T095105"><br>
+ この中で 1000 回程度 Google Direction API, OSRM API どちらも叩いて統計差がどれくらいか，変なルート通っていないか比較しました.</p>
+<p>設定はこんな感じです</p>
+<ul>
+<li>両方とも高速道路を通らない</li>
+<li>Direction API は trafficMode=optimistic</li>
+<li>OSRM は交通量情報を考慮しない</li>
+<li>OSRM の設定 lua ファイルはデフォルト (car.lua) のまま</li>
+</ul>
+<h1 id="結果"><a class="markdownIt-Anchor" href="#結果">#</a> 結果</h1>
+<h2 id="予測結果"><a class="markdownIt-Anchor" href="#予測結果">#</a> 予測結果</h2>
+<p>ランダムに 1 つ抜き出してきました.<br>
+ ルートは似たようなルートを通っていますが<br>
+時間が結構ずれています.<br>
+<img src="2020-09-01T095718.png" alt="2020-09-01T095718"></p>
+<h2 id="距離誤差時間誤差"><a class="markdownIt-Anchor" href="#距離誤差時間誤差">#</a> 距離誤差＆時間誤差</h2>
+<p>距離 / 時間の相対誤差のヒストグラムは以下のようになりました.<br>
+<img src="2020-09-01T095458.png" alt="2020-09-01T095458"><br>
+ ルート可視化と同様に，距離誤差はデフォルトでもある程度正しいですが<br>
+時間誤差が大きいので修正が必要です.</p>
+<h2 id="速い道路-遅い道路の区分け"><a class="markdownIt-Anchor" href="#速い道路-遅い道路の区分け">#</a> 速い道路，遅い道路の区分け</h2>
+<p>適当に低速，中速，高速で分けると<br>
+高速の比率が大きいほど予測を外していることが分かりました.<br>
+<img src="2020-09-01T100026.png" alt="2020-09-01T100026"></p>
+<h1 id="チューニング"><a class="markdownIt-Anchor" href="#チューニング">#</a> チューニング</h1>
+<p>上記の結果を踏まえてチューニングを行いました.<br>
+lua ファイル内では道路のタグ名ごとに初期設定速度を入れています.<br>
+ 今回はそちらを定数倍する大雑把な修正を行いました.</p>
+<p><img src="2020-09-01T100311.png" alt="2020-09-01T100311"></p>
+<p>これで統計的な情報をある程度合わせられる！(チューニングですので)</p>
+<h1 id="チューニング結果"><a class="markdownIt-Anchor" href="#チューニング結果">#</a> チューニング結果</h1>
+<p>こんな感じになりました<br>
+散布図<br>
+<img src="2020-09-01T100439.png" alt="2020-09-01T100439"><br>
+ ヒストグラム<br>
+<img src="2020-09-01T100501.png" alt="2020-09-01T100501"></p>
+<p>平均はあるていど合わせられましたが分散まで Google の予測と同様とはやはり行かなかったです.<br>
+ 交通量の考慮も入ってくるのでそのままの代用は難しいですね.<br>
+ 一方，大きく外すわけではないので裏のロジックに使用したりとか<br>
+使い道を考えれば導入できるのでは？という感触でした</p>
+<h1 id="まとめ"><a class="markdownIt-Anchor" href="#まとめ">#</a> まとめ</h1>
+<p>Google と比較して検証しました<br>
+全体大きくは外さないですがダメな時もありました<br>
+どこまでの精度求めるかによりますが<br>
+存外使えるかもという事で裏側ロジックでの実装と導入<br>
+どの部分に使うかを模索することになりました.</p>
+
+        </section>
+
+        
+          <section class="theme-post__card__license mdui-typo">
+            <span>
+              Article License: 
+              
+                <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">CC BY-NC-SA 4.0</a>
+              
+            </span>
+            <!--<br />
+            <span>Article Permalink: <a href="https://monet-technologies-com.github.io/tech-blog/2020/08/30/%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2OSS%20(OSRM)%20%E3%81%AE%E4%BA%88%E6%B8%AC%E7%B2%BE%E5%BA%A6%E3%82%92%E8%AA%BF%E3%81%B9%E3%81%BE%E3%81%97%E3%81%9F/">https://monet-technologies-com.github.io/tech-blog/2020/08/30/%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2OSS%20(OSRM)%20%E3%81%AE%E4%BA%88%E6%B8%AC%E7%B2%BE%E5%BA%A6%E3%82%92%E8%AA%BF%E3%81%B9%E3%81%BE%E3%81%97%E3%81%9F/</a></span>
+            
+              <br />
+              <span>Article Markdown: <a href="https://monet-technologies-com.github.io/tech-blog/2020/08/30/%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2OSS%20(OSRM)%20%E3%81%AE%E4%BA%88%E6%B8%AC%E7%B2%BE%E5%BA%A6%E3%82%92%E8%AA%BF%E3%81%B9%E3%81%BE%E3%81%97%E3%81%9F/ルート検索OSS (OSRM) の予測精度を調べました.md">https://monet-technologies-com.github.io/tech-blog/2020/08/30/%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2OSS%20(OSRM)%20%E3%81%AE%E4%BA%88%E6%B8%AC%E7%B2%BE%E5%BA%A6%E3%82%92%E8%AA%BF%E3%81%B9%E3%81%BE%E3%81%97%E3%81%9F/ルート検索OSS (OSRM) の予測精度を調べました.md</a></span>
+            -->
+          </section>
+        
+
+        
+          <section class="mdui-card-actions theme-post__card__actions">
+            
+            <div class="theme-spacer"></div>
+            
+            
+          </section>
+        
+
+        
+          
+            <script type="text/javascript">
+              themeRuntime.commentRest.function = function (newIdentifier, newUrl, newTitle) {
+                return
+              }
+            </script>
+          
+        
+      </article>
+      
+        <div class="mdui-color-theme theme-post__toc">
+          <html><head></head><body><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x524D;&#x8AC7;" data-href="#&#x524D;&#x8AC7;"><span class="toc-number"></span> <span class="toc-text">1.  &#x524D;&#x8AC7;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x30EB;&#x30FC;&#x30C8;&#x691C;&#x7D22;&#x306E;&#x30B3;&#x30B9;&#x30C8;&#x524A;&#x6E1B;" data-href="#&#x30EB;&#x30FC;&#x30C8;&#x691C;&#x7D22;&#x306E;&#x30B3;&#x30B9;&#x30C8;&#x524A;&#x6E1B;"><span class="toc-number"></span> <span class="toc-text">1.1.  &#x30EB;&#x30FC;&#x30C8;&#x691C;&#x7D22;&#x306E;&#x30B3;&#x30B9;&#x30C8;&#x524A;&#x6E1B;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#osm&#x3068;&#x306F;" data-href="#osm&#x3068;&#x306F;"><span class="toc-number"></span> <span class="toc-text">1.2.  OSM &#x3068;&#x306F;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#osrm&#x3068;&#x306F;" data-href="#osrm&#x3068;&#x306F;"><span class="toc-number"></span> <span class="toc-text">1.3.  OSRM &#x3068;&#x306F;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#osrm&#x3063;&#x3066;&#x3069;&#x3093;&#x306A;&#x611F;&#x3058;&#x3067;&#x52D5;&#x3044;&#x3066;&#x307E;&#x3059;&#x3093;" data-href="#osrm&#x3063;&#x3066;&#x3069;&#x3093;&#x306A;&#x611F;&#x3058;&#x3067;&#x52D5;&#x3044;&#x3066;&#x307E;&#x3059;&#x3093;"><span class="toc-number"></span> <span class="toc-text">1.4.  OSRM &#x3063;&#x3066;&#x3069;&#x3093;&#x306A;&#x611F;&#x3058;&#x3067;&#x52D5;&#x3044;&#x3066;&#x307E;&#x3059;&#x3093;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x691C;&#x8A3C;" data-href="#&#x691C;&#x8A3C;"><span class="toc-number"></span> <span class="toc-text">2.  &#x691C;&#x8A3C;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x7D50;&#x679C;" data-href="#&#x7D50;&#x679C;"><span class="toc-number"></span> <span class="toc-text">3.  &#x7D50;&#x679C;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x4E88;&#x6E2C;&#x7D50;&#x679C;" data-href="#&#x4E88;&#x6E2C;&#x7D50;&#x679C;"><span class="toc-number"></span> <span class="toc-text">3.1.  &#x4E88;&#x6E2C;&#x7D50;&#x679C;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x8DDD;&#x96E2;&#x8AA4;&#x5DEE;&#x6642;&#x9593;&#x8AA4;&#x5DEE;" data-href="#&#x8DDD;&#x96E2;&#x8AA4;&#x5DEE;&#x6642;&#x9593;&#x8AA4;&#x5DEE;"><span class="toc-number"></span> <span class="toc-text">3.2.  &#x8DDD;&#x96E2;&#x8AA4;&#x5DEE;&#xFF06;&#x6642;&#x9593;&#x8AA4;&#x5DEE;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x901F;&#x3044;&#x9053;&#x8DEF;-&#x9045;&#x3044;&#x9053;&#x8DEF;&#x306E;&#x533A;&#x5206;&#x3051;" data-href="#&#x901F;&#x3044;&#x9053;&#x8DEF;-&#x9045;&#x3044;&#x9053;&#x8DEF;&#x306E;&#x533A;&#x5206;&#x3051;"><span class="toc-number"></span> <span class="toc-text">3.3.  &#x901F;&#x3044;&#x9053;&#x8DEF;&#xFF0C;&#x9045;&#x3044;&#x9053;&#x8DEF;&#x306E;&#x533A;&#x5206;&#x3051;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;" data-href="#&#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;"><span class="toc-number"></span> <span class="toc-text">4.  &#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;&#x7D50;&#x679C;" data-href="#&#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;&#x7D50;&#x679C;"><span class="toc-number"></span> <span class="toc-text">5.  &#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;&#x7D50;&#x679C;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x307E;&#x3068;&#x3081;" data-href="#&#x307E;&#x3068;&#x3081;"><span class="toc-number"></span> <span class="toc-text">6.  &#x307E;&#x3068;&#x3081;</span></a></li></ol></body></html>
+        </div>
+      
+    </div>
+  </div>
+
+  <div class="theme-spacer"></div>
+
+  
+    <div class="mdui-color-theme theme-post__toc-fab">
+  <button class="mdui-fab mdui-color-theme-accent mdui-ripple mdui-fab-fixed mdui-hidden-md-up" mdui-menu="{target: '#toc-fab-menu', fixed: true}" id="toc-fab">
+    <i class="mdui-icon material-icons">&#xe242;</i>
+  </button>
+  <ul class="mdui-menu mdui-typo theme-post__toc-fab__menu" id="toc-fab-menu" style="padding: 8px;max-height: 80%">
+    <html><head></head><body><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x524D;&#x8AC7;" data-href="#&#x524D;&#x8AC7;"><span class="toc-number"></span> <span class="toc-text">1.  &#x524D;&#x8AC7;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x30EB;&#x30FC;&#x30C8;&#x691C;&#x7D22;&#x306E;&#x30B3;&#x30B9;&#x30C8;&#x524A;&#x6E1B;" data-href="#&#x30EB;&#x30FC;&#x30C8;&#x691C;&#x7D22;&#x306E;&#x30B3;&#x30B9;&#x30C8;&#x524A;&#x6E1B;"><span class="toc-number"></span> <span class="toc-text">1.1.  &#x30EB;&#x30FC;&#x30C8;&#x691C;&#x7D22;&#x306E;&#x30B3;&#x30B9;&#x30C8;&#x524A;&#x6E1B;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#osm&#x3068;&#x306F;" data-href="#osm&#x3068;&#x306F;"><span class="toc-number"></span> <span class="toc-text">1.2.  OSM &#x3068;&#x306F;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#osrm&#x3068;&#x306F;" data-href="#osrm&#x3068;&#x306F;"><span class="toc-number"></span> <span class="toc-text">1.3.  OSRM &#x3068;&#x306F;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#osrm&#x3063;&#x3066;&#x3069;&#x3093;&#x306A;&#x611F;&#x3058;&#x3067;&#x52D5;&#x3044;&#x3066;&#x307E;&#x3059;&#x3093;" data-href="#osrm&#x3063;&#x3066;&#x3069;&#x3093;&#x306A;&#x611F;&#x3058;&#x3067;&#x52D5;&#x3044;&#x3066;&#x307E;&#x3059;&#x3093;"><span class="toc-number"></span> <span class="toc-text">1.4.  OSRM &#x3063;&#x3066;&#x3069;&#x3093;&#x306A;&#x611F;&#x3058;&#x3067;&#x52D5;&#x3044;&#x3066;&#x307E;&#x3059;&#x3093;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x691C;&#x8A3C;" data-href="#&#x691C;&#x8A3C;"><span class="toc-number"></span> <span class="toc-text">2.  &#x691C;&#x8A3C;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x7D50;&#x679C;" data-href="#&#x7D50;&#x679C;"><span class="toc-number"></span> <span class="toc-text">3.  &#x7D50;&#x679C;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x4E88;&#x6E2C;&#x7D50;&#x679C;" data-href="#&#x4E88;&#x6E2C;&#x7D50;&#x679C;"><span class="toc-number"></span> <span class="toc-text">3.1.  &#x4E88;&#x6E2C;&#x7D50;&#x679C;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x8DDD;&#x96E2;&#x8AA4;&#x5DEE;&#x6642;&#x9593;&#x8AA4;&#x5DEE;" data-href="#&#x8DDD;&#x96E2;&#x8AA4;&#x5DEE;&#x6642;&#x9593;&#x8AA4;&#x5DEE;"><span class="toc-number"></span> <span class="toc-text">3.2.  &#x8DDD;&#x96E2;&#x8AA4;&#x5DEE;&#xFF06;&#x6642;&#x9593;&#x8AA4;&#x5DEE;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x901F;&#x3044;&#x9053;&#x8DEF;-&#x9045;&#x3044;&#x9053;&#x8DEF;&#x306E;&#x533A;&#x5206;&#x3051;" data-href="#&#x901F;&#x3044;&#x9053;&#x8DEF;-&#x9045;&#x3044;&#x9053;&#x8DEF;&#x306E;&#x533A;&#x5206;&#x3051;"><span class="toc-number"></span> <span class="toc-text">3.3.  &#x901F;&#x3044;&#x9053;&#x8DEF;&#xFF0C;&#x9045;&#x3044;&#x9053;&#x8DEF;&#x306E;&#x533A;&#x5206;&#x3051;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;" data-href="#&#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;"><span class="toc-number"></span> <span class="toc-text">4.  &#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;&#x7D50;&#x679C;" data-href="#&#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;&#x7D50;&#x679C;"><span class="toc-number"></span> <span class="toc-text">5.  &#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;&#x7D50;&#x679C;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x307E;&#x3068;&#x3081;" data-href="#&#x307E;&#x3068;&#x3081;"><span class="toc-number"></span> <span class="toc-text">6.  &#x307E;&#x3068;&#x3081;</span></a></li></ol></body></html>
+  </ul>
+</div>
+
+  
+
+  
+    <div class="theme-post__pagination mdui-color-theme">
+  
+    <div class="theme-spacer mdui-hidden-xs"></div>
+  
+
+  
+    <div class="theme-post__pagination__next mdui-ripple mdui-valign">
+      
+        <a href="/tech-blog/2020/08/18/Arch%20Linux%E3%81%AF%E3%81%84%E3%81%84%E3%81%9E%E3%81%A8%E3%81%84%E3%81%86%E8%A9%B1/" class="theme-post__pagination__next__content mdui-text-right">
+        
+        <div>
+          <span class="mdui-typo-body-2-opacity mdui-text-center">Older Post</span>
+          <i class="mdui-icon material-icons mdui-text-center">&#xe5cc;</i>
+        </div>
+        <div class="mdui-typo-title mdui-text-truncate">
+          Arch Linuxはいいぞという話
+        </div>
+      </a>
+    </div>
+    
+</div>
+
+  
+
+  
+    <div class="mdui-dialog" id="donateDialog">
+      <div class="mdui-dialog-title">Buy me a beer?</div>
+      <div class="mdui-dialog-content">
+        <div class="mdui-list">
+          
+        </div>
+      </div>
+      <div class="mdui-dialog-actions">
+        <button class="mdui-btn mdui-ripple mdui-ripple" mdui-dialog-close>Cancel</button>
+      </div>
+    </div>
+  
+</div>
+<script type="text/javascript">
+  themeRuntime.scriptsMap.post = [];
+  if (document.querySelector('.theme-post__toc-fab__menu > ol') !== null && document.querySelector('.theme-post__toc > ol') !== null) {
+    tocHighlight()
+    function tocHighlight() {
+      var timer;
+      function doWork() {
+        listens.forEach(function(value, index) {
+          value[1]();
+          value[0].classList.remove("mdui-list-item-active");
+        })
+        let actionToc = (listens[listens.reduce(function(r, v, index) {
+          if (v[2] == true) {
+            return index;
+          } else return r;
+        }, undefined)] || [])[0] || listens[0][0];
+        actionToc.classList.add("mdui-list-item-active");
+        if(actionToc.getClientRects().length == 0)return;
+        showToc(actionToc);
+      }
+      function showToc(toc) {
+        let offsetTop = toc.getClientRects()[0].top - cardToc.getClientRects()[0].top - 40;
+        let offsetBottom = toc.getClientRects()[0].bottom - cardToc.getClientRects()[0].bottom + 40;
+        let offset = 0;
+        if (offsetTop < 0) offset = offsetTop;
+        if (offsetBottom > 0) offset = offsetBottom;
+        var targetTop = Math.max(0, Math.min(cardToc.scrollTop + offset, toclist.offsetHeight - cardToc.offsetHeight));
+        clearInterval(timer);
+        timer = setInterval(function() {
+          var now = cardToc.scrollTop;
+          var speed = (targetTop - now) / 10;
+          speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+          if (Math.abs(now - targetTop) < 1) {
+            clearInterval(timer);
+          }
+          cardToc.scrollTop = now + speed;
+        }, 30);
+      }
+      var listens = [];
+      var cardToc = document.querySelector('.theme-post__toc');
+      var links = cardToc.querySelectorAll(".theme-post__toc__content__link");
+      var toclist = document.querySelector(".theme-post__toc > ol");
+      Array.prototype.forEach.call(links, function(value, index) {
+        var id = (value.getAttribute("href") || "#").slice(1);
+        var element = document.getElementById(id);
+        listens.push([value, function() {
+          var readed = false;
+          var scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+          if (element.offsetTop <= scrollTop + element.clientHeight + 64) {
+            readed = true;
+          } else {
+            readed = false;
+          }
+          listens[index][2] = readed;
+        }, false])
+      })
+      doWork();
+      window.addEventListener("scroll", doWork)
+      var listener = {
+        function:  doWork,
+        event: 'scroll',
+        el: window,
+        removed: false
+      }
+      themeRuntime.scriptsMap.post.push(listener)
+    }
+  }
+</script>
+
+<script type="text/javascript">
+  (function() {
+    var postLastModifiedDate = 1598922612000
+    var today = (new Date()).getTime()
+    var difference = Math.floor((today - postLastModifiedDate)/(24*60*60*1000))
+    if (difference >= 100) {
+      document.querySelector('.theme-post__card__warning').style.display = 'block'
+      document.querySelector('#content-warning').textContent = difference
+    }
+  })();
+</script>
+
+<script type="text/javascript">
+  var images = document.querySelectorAll('.theme-post__card__content img')
+  for (i = 0; i < images.length; i++) {
+    //console.log('image added', i)
+    images[i].addEventListener("click", openLG);
+    var listener = {
+      function:  openLG,
+      event: 'click',
+      el: images[i],
+      removed: false
+    }
+    themeRuntime.scriptsMap.post.push(listener)
+  }
+  function openLG() {
+    var img_src = this.getAttribute('src');
+    var img_alt = this.getAttribute('alt');
+    lightGallery(this, {
+      dynamic: true,
+      counter: false,
+      dynamicEl: [{
+        "src": img_src,
+        'subHtml': "<span author>MONET Technologies</span><div descr>" + img_alt + "</div>"
+      }],
+    });
+  }
+</script>
+
+
+
+
+      </div>
+    </div>
+  </main>
+
+  <div id="outdated" style="z-index: 9999;">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+  </div>
+  <!-- import js -->
+
+
+  
+<script src="/tech-blog/js/outdatedbrowser.min.js"></script>
+
+
+
+
+  
+    
+<script src="/tech-blog/js/js.barba.min.js"></script>
+
+    <script type="text/javascript">
+      Barba.Utils.errorPageUrl = '/tech-blog/404.html';
+    </script>
+  
+
+
+<!-- theme js -->
+<script type="text/javascript">
+  // default theme: light
+  localStorage.setItem('darkMode',false);
+  (function() {
+    var appbarTopFlag = false;
+    var appbarEl = document.querySelector('.theme-appbar');
+    function appbarShadow() {
+      var bodyScrolled = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+      if (bodyScrolled > 0 && !appbarTopFlag) {
+        appbarEl.classList.add('theme-appbar--shadow');
+        appbarTopFlag = true;
+      } else if (bodyScrolled === 0 && appbarTopFlag) {
+        appbarEl.classList.remove('theme-appbar--shadow');
+        appbarTopFlag = false;
+      }
+    }
+    appbarShadow()
+    window.addEventListener('scroll', appbarShadow);
+  })();
+  (function() {
+    function detechTheme() {
+      var modeFlag = localStorage.getItem('darkMode');
+      // true for dark mode, false for bright mode
+      if(modeFlag === "true"){
+        document.querySelector('body').classList.add('mdui-theme-layout-dark')
+        document.querySelector('meta[name="theme-color"]').setAttribute("content", "#212121")
+        return true
+      } /*
+      // If you want to override the user's configuration, you can do so as follows
+      else if(!window.matchMedia) {
+        return false;
+      } else if(window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        document.querySelector('body').classList.add('mdui-theme-layout-dark')
+        document.querySelector('meta[name="theme-color"]').setAttribute("content", "#212121")
+        return true;
+      } else if(window.matchMedia("(prefers-color-scheme: light)").matches) {
+        document.querySelector('body').classList.remove('mdui-theme-layout-dark')
+        document.querySelector('meta[name="theme-color"]').setAttribute("content", "#fff")
+        return false;
+      } */
+      else {
+        return false;
+      }
+    }
+    var modeFlag = detechTheme();
+    var modeEl = document.querySelector('.theme-appbar__mode-switch');
+    function modeSwitch() {
+      if (!modeFlag) {
+        // default bright mode, switch to dark mode
+        document.querySelector('body').classList.add('mdui-theme-layout-dark');
+        document.querySelector('meta[name="theme-color"]').setAttribute("content", "#212121")
+        localStorage.setItem('darkMode', true);
+        modeFlag = true;
+      } else {
+        // dark mode, switch to bright mode
+        document.querySelector('body').classList.remove('mdui-theme-layout-dark');
+        document.querySelector('meta[name="theme-color"]').setAttribute("content", "#fff")
+        localStorage.setItem('darkMode', false);
+        modeFlag = false;
+      }
+      console.log("local mode:"+localStorage.getItem('darkMode'));
+    }
+    modeEl.addEventListener('click', modeSwitch);
+  })();
+
+</script>
+
+
+
+
+
+
+<script type="text/javascript">
+  document.querySelector('body').classList.add('theme-loaded')
+</script>
+
+
+
+  
+  
+</body>
+</html>
