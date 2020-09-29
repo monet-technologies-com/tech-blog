@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://monet-technologies-com.github.io/tech-blog</id>
+    <title>MONET Tech-Blog • Posts by &#34;oss検証&#34; category</title>
+    <link href="https://monet-technologies-com.github.io/tech-blog" />
+    <updated>2020-08-30T19:06:55.000Z</updated>
+    <category term="Arch Linux" />
+    <category term="Linux" />
+    <category term="hexo" />
+    <category term="vscode" />
+    <category term="github" />
+    <category term="docker" />
+    <category term="OSS" />
+    <category term="OSM" />
+    <category term="OSRM" />
+    <category term="最適化" />
+    <category term="VRP" />
+    <entry>
+        <id>https://monet-technologies-com.github.io/tech-blog/2020/08/30/%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2OSS%20(OSRM)%20%E3%81%AE%E4%BA%88%E6%B8%AC%E7%B2%BE%E5%BA%A6%E3%82%92%E8%AA%BF%E3%81%B9%E3%81%BE%E3%81%97%E3%81%9F/</id>
+        <title>ルート検索OSS (OSRM) の予測精度を調べました (執筆中)</title>
+        <link rel="alternate" href="https://monet-technologies-com.github.io/tech-blog/2020/08/30/%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2OSS%20(OSRM)%20%E3%81%AE%E4%BA%88%E6%B8%AC%E7%B2%BE%E5%BA%A6%E3%82%92%E8%AA%BF%E3%81%B9%E3%81%BE%E3%81%97%E3%81%9F/"/>
+        <content type="html">&lt;h1 id=&#34;執筆中の記事です-ドラフトです&#34;&gt;&lt;a href=&#34;#執筆中の記事です-ドラフトです&#34; class=&#34;headerlink&#34; title=&#34;執筆中の記事です (ドラフトです)&#34;&gt;&lt;/a&gt;執筆中の記事です (ドラフトです)&lt;/h1&gt;&lt;p&gt;システム部の登山担当太田です&lt;br&gt;山はいいぞ&lt;/p&gt;
+&lt;p&gt;今回はルート検索のOSSであるOSRMを検証した話です&lt;br&gt;地図データにはOSMを用いています&lt;br&gt;導入は別で書きます&lt;/p&gt;
+&lt;h1 id=&#34;前談&#34;&gt;&lt;a href=&#34;#前談&#34; class=&#34;headerlink&#34; title=&#34;前談&#34;&gt;&lt;/a&gt;前談&lt;/h1&gt;&lt;h2 id=&#34;ルート検索のコスト削減&#34;&gt;&lt;a href=&#34;#ルート検索のコスト削減&#34; class=&#34;headerlink&#34; title=&#34;ルート検索のコスト削減&#34;&gt;&lt;/a&gt;ルート検索のコスト削減&lt;/h2&gt;&lt;p&gt;MONETではオンデマンドバスサービスを提供していますが&lt;br&gt;その裏ではルート検索による時間取得のロジックが何度もはしっています&lt;br&gt;マッチングの最適化など今後進めていくにあたってもルート検索のコストは抑えたいところです&lt;br&gt;そこで信頼性をある程度担保して低コストなルート検索できないかな？&lt;br&gt;ということでOSSの有効性を検証しました&lt;/p&gt;
+&lt;h2 id=&#34;OSMとは&#34;&gt;&lt;a href=&#34;#OSMとは&#34; class=&#34;headerlink&#34; title=&#34;OSMとは&#34;&gt;&lt;/a&gt;OSMとは&lt;/h2&gt;&lt;p&gt;素晴らしい取り組みとしてOpen Street Map (OSM) という地理情報をみんなで作って行こうぜ！オープンライセンスで誰にでも使えるようにしようぜ！というイカしたプロジェクトがあります&lt;br&gt;Open Street Mapでは所々足りていない情報はありますが&lt;br&gt;道路のクラス分けや店舗の情報までオープンライセンスと考えれば十分すぎるほどの地理データが利用できます&lt;br&gt;&lt;img src=&#34;2020-08-31T130832.png&#34; alt=&#34;2020-08-31T130832&#34;&gt;&lt;/p&gt;
+&lt;div class=&#34;mdui-table-fluid theme-post__card__table--flat&#34;&gt;&lt;table class=&#34;mdui-table mdui-table-hoverable &#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;OSMで利用可能な情報&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td&gt;○&lt;/td&gt;
+&lt;td&gt;道路分類, 建物分類, 各名称&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;×&lt;/td&gt;
+&lt;td&gt;公共交通機関, 交通量&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;br&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;p&gt;もちろん自分たちで編集ができ, 自宅の周りとか眺めてポチポチするだけで世界の地理データベース作成に貢献できるのでぜひやってみてください！&lt;/p&gt;
+&lt;h2 id=&#34;OSRMとは&#34;&gt;&lt;a href=&#34;#OSRMとは&#34; class=&#34;headerlink&#34; title=&#34;OSRMとは&#34;&gt;&lt;/a&gt;OSRMとは&lt;/h2&gt;&lt;p&gt;ルート検索エンジンのOSSです.&lt;br&gt;中身のアルゴリズムはmulti dikstraでOSMの地図情報を基に&lt;br&gt;最短ルートを決定します. (他のアルゴリズムも使用可)&lt;br&gt;高速道路を省いたり, Uターンを禁止したりなど&lt;br&gt;痒いところの設定までできてしまう優れものです.&lt;br&gt;Mapboxでも採用されていたりします.&lt;a href=&#34;https://blog.mapbox.com/mapbox-directions-powered-by-osrm-4-8-1-cf2c45ae9aa8&#34;&gt;ブログ記事&lt;/a&gt;&lt;br&gt;ルート検索だけでなく&lt;br&gt;MapBoxでも採用されていたりします&lt;br&gt;このルート検索エンジン使ってどれくらい正しく予測できるの？&lt;br&gt;というのが今回のお題です&lt;/p&gt;
+&lt;h2 id=&#34;OSRMってどんな感じで動いてますん&#34;&gt;&lt;a href=&#34;#OSRMってどんな感じで動いてますん&#34; class=&#34;headerlink&#34; title=&#34;OSRMってどんな感じで動いてますん&#34;&gt;&lt;/a&gt;OSRMってどんな感じで動いてますん&lt;/h2&gt;&lt;p&gt;実装までは&lt;a href=&#34;&#34;&gt;他記事&lt;/a&gt;でも紹介されているので省きますが&lt;br&gt;ザクっとこんな感じです&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;OSMの最新地図情報を保存&lt;/li&gt;
+&lt;li&gt;luaファイル定義に従って重み付けされたグラフを作成&lt;/li&gt;
+&lt;li&gt;HTTPサーバーを起動してリクエスト&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;検証&#34;&gt;&lt;a href=&#34;#検証&#34; class=&#34;headerlink&#34; title=&#34;検証&#34;&gt;&lt;/a&gt;検証&lt;/h1&gt;&lt;p&gt;最初に東京都内の限られた範囲でランダムに2点を&lt;br&gt;限られた範囲でのルート検索制度を検証しました.&lt;br&gt;検証範囲は以下になります.&lt;br&gt;&lt;img src=&#34;2020-09-01T095105.png&#34; alt=&#34;2020-09-01T095105&#34;&gt;&lt;br&gt;この中で1000回程度Google Direction API, OSRM APIどちらも叩いて統計差がどれくらいか, 変なルート通っていないか比較しました.&lt;/p&gt;
+&lt;p&gt;設定はこんな感じです&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;両方とも高速道路を通らない&lt;/li&gt;
+&lt;li&gt;Direction APIはtrafficMode=optimistic&lt;/li&gt;
+&lt;li&gt;OSRMは交通量情報を考慮しない&lt;/li&gt;
+&lt;li&gt;OSRMの設定luaファイルはデフォルト (car.lua) のまま&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;結果&#34;&gt;&lt;a href=&#34;#結果&#34; class=&#34;headerlink&#34; title=&#34;結果&#34;&gt;&lt;/a&gt;結果&lt;/h1&gt;&lt;h2 id=&#34;予測結果&#34;&gt;&lt;a href=&#34;#予測結果&#34; class=&#34;headerlink&#34; title=&#34;予測結果&#34;&gt;&lt;/a&gt;予測結果&lt;/h2&gt;&lt;p&gt;ランダムに1つ抜き出してきました.&lt;br&gt;ルートは似たようなルートを通っていますが&lt;br&gt;時間が結構ずれています.&lt;br&gt;&lt;img src=&#34;2020-09-01T095718.png&#34; alt=&#34;2020-09-01T095718&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;距離誤差＆時間誤差&#34;&gt;&lt;a href=&#34;#距離誤差＆時間誤差&#34; class=&#34;headerlink&#34; title=&#34;距離誤差＆時間誤差&#34;&gt;&lt;/a&gt;距離誤差＆時間誤差&lt;/h2&gt;&lt;p&gt;距離/時間の相対誤差のヒストグラムは以下のようになりました.&lt;br&gt;&lt;img src=&#34;2020-09-01T095458.png&#34; alt=&#34;2020-09-01T095458&#34;&gt;&lt;br&gt;ルート可視化と同様に, 距離誤差はデフォルトでもある程度正しいですが&lt;br&gt;時間誤差が大きいので修正が必要です.&lt;/p&gt;
+&lt;h2 id=&#34;速い道路-遅い道路の区分け&#34;&gt;&lt;a href=&#34;#速い道路-遅い道路の区分け&#34; class=&#34;headerlink&#34; title=&#34;速い道路, 遅い道路の区分け&#34;&gt;&lt;/a&gt;速い道路, 遅い道路の区分け&lt;/h2&gt;&lt;p&gt;適当に低速, 中速, 高速で分けると&lt;br&gt;高速の比率が大きいほど予測を外していることが分かりました.&lt;br&gt;&lt;img src=&#34;2020-09-01T100026.png&#34; alt=&#34;2020-09-01T100026&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;チューニング&#34;&gt;&lt;a href=&#34;#チューニング&#34; class=&#34;headerlink&#34; title=&#34;チューニング&#34;&gt;&lt;/a&gt;チューニング&lt;/h1&gt;&lt;p&gt;上記の結果を踏まえてチューニングを行いました.&lt;br&gt;luaファイル内では道路のタグ名ごとに初期設定速度を入れています.&lt;br&gt;今回はそちらを定数倍する大雑把な修正を行いました.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;2020-09-01T100311.png&#34; alt=&#34;2020-09-01T100311&#34;&gt;&lt;/p&gt;
+&lt;p&gt;これで統計的な情報をある程度合わせられる！(チューニングですので)&lt;/p&gt;
+&lt;h1 id=&#34;チューニング結果&#34;&gt;&lt;a href=&#34;#チューニング結果&#34; class=&#34;headerlink&#34; title=&#34;チューニング結果&#34;&gt;&lt;/a&gt;チューニング結果&lt;/h1&gt;&lt;p&gt;こんな感じになりました&lt;br&gt;散布図&lt;br&gt;&lt;img src=&#34;2020-09-01T100439.png&#34; alt=&#34;2020-09-01T100439&#34;&gt;&lt;br&gt;ヒストグラム&lt;br&gt;&lt;img src=&#34;2020-09-01T100501.png&#34; alt=&#34;2020-09-01T100501&#34;&gt;&lt;/p&gt;
+&lt;p&gt;平均はあるていど合わせられましたが分散までGoogleの予測と同様とはやはり行かなかったです.&lt;br&gt;交通量の考慮も入ってくるのでそのままの代用は難しいですね.&lt;br&gt;一方, 大きく外すわけではないので裏のロジックに使用したりとか&lt;br&gt;使い道を考えれば導入できるのでは？という感触でした&lt;/p&gt;
+&lt;h1 id=&#34;まとめ&#34;&gt;&lt;a href=&#34;#まとめ&#34; class=&#34;headerlink&#34; title=&#34;まとめ&#34;&gt;&lt;/a&gt;まとめ&lt;/h1&gt;&lt;p&gt;Googleと比較して検証しました&lt;br&gt;全体大きくは外さないですがダメな時もありました&lt;br&gt;どこまでの精度求めるかによりますが&lt;br&gt;存外使えるかもという事で裏側ロジックでの実装と導入&lt;br&gt;どの部分に使うかを模索することになりました.&lt;/p&gt;
+</content>
+        <category term="OSS" />
+        <category term="OSM" />
+        <category term="OSRM" />
+        <updated>2020-08-30T19:06:55.000Z</updated>
+    </entry>
+</feed>

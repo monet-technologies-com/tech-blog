@@ -55,7 +55,6 @@
       }
       
     };
-    console.info("%cCopyright © 2018 - " + new Date().getFullYear() +" Halyul\n"+'Theme Version: ' + themeRuntime.versions.theme +'%c\nhttps://github.com/Halyul/hexo-theme-mdui',"font-size: 14px;color: #3F51B5;","color: #448AFF;text-decoration: none");
   </script>
   <!--
         © HEXO MDUI Theme
@@ -118,7 +117,7 @@
 
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 5.2.0"></head>
 
 
 <body class="mdui-drawer-body-left mdui-theme-primary-teal mdui-theme-accent-light-blue">
@@ -342,6 +341,12 @@
           </div>
           <div class="mdui-collapse-item-body mdui-list">
             
+              <a href="/tech-blog/categories/OSS%E6%A4%9C%E8%A8%BC/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                OSS検証
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
+              </a>
+            
               <a href="/tech-blog/categories/%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E6%8A%80%E8%A1%93/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
                 おすすめ技術
                 <div style="flex-grow: 1;"></div>
@@ -352,6 +357,12 @@
                 ブログ環境
                 <div style="flex-grow: 1;"></div>
                 <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">3</span>
+              </a>
+            
+              <a href="/tech-blog/categories/%E7%90%86%E8%AB%96%E8%80%83%E5%AF%9F/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                理論考察
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
               </a>
             
           </div>
@@ -402,6 +413,36 @@
                 <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
               </a>
             
+              <a href="/tech-blog/tags/OSS/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                OSS
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
+              </a>
+            
+              <a href="/tech-blog/tags/OSM/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                OSM
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
+              </a>
+            
+              <a href="/tech-blog/tags/OSRM/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                OSRM
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
+              </a>
+            
+              <a href="/tech-blog/tags/%E6%9C%80%E9%81%A9%E5%8C%96/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                最適化
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
+              </a>
+            
+              <a href="/tech-blog/tags/VRP/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                VRP
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
+              </a>
+            
           </div>
         </div>
       
@@ -448,7 +489,7 @@
     
       <br />
       <span>
-        Last Updated: 2020-09-01
+        Last Updated: 2020-09-29
       </span>
     
     
@@ -689,17 +730,44 @@
 
         
           
-            <script type="text/javascript">
-              themeRuntime.commentRest.function = function (newIdentifier, newUrl, newTitle) {
-                return
-              }
-            </script>
+            <section>
+              <div class="mdui-divider"></div>
+            </section>
+            <section class="theme-post__card__comment">
+              
+  <div id="disqus_thread"></div>
+  <script>
+    themeRuntime.commentRest.function = function (newIdentifier, newUrl, newTitle) {
+      DISQUS.reset({
+        reload: true,
+        config: function () {
+          this.page.identifier = newIdentifier;
+          this.page.url = newUrl;
+          this.page.title = newTitle;
+        }
+      });
+    }
+    var disqus_config = function () {
+      this.page.url = 'https://monet-technologies-com.github.io/tech-blog/2020/07/15/%E6%8A%80%E8%A1%93%E3%83%96%E3%83%AD%E3%82%B0%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F(VSCode%E3%81%AE%E8%A8%AD%E5%AE%9A%E7%B7%A8)/';  // Replace PAGE_URL with your page's canonical URL variable
+      this.page.identifier = 'https://monet-technologies-com.github.io/tech-blog/2020/07/15/%E6%8A%80%E8%A1%93%E3%83%96%E3%83%AD%E3%82%B0%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F(VSCode%E3%81%AE%E8%A8%AD%E5%AE%9A%E7%B7%A8)/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    (function() { // DON'T EDIT BELOW THIS LINE
+      var d = document, s = d.createElement('script');
+      s.src = '//monet-tech-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+            </section>
           
         
       </article>
       
         <div class="mdui-color-theme theme-post__toc">
-          <html><head></head><body><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x306F;&#x3058;&#x3081;&#x306B;" data-href="#&#x306F;&#x3058;&#x3081;&#x306B;"><span class="toc-number"></span> <span class="toc-text">1.  &#x306F;&#x3058;&#x3081;&#x306B;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x697D;&#x306A;&#x57F7;&#x7B46;&#x74B0;&#x5883;&#x306B;&#x5411;&#x3051;&#x3066;" data-href="#&#x697D;&#x306A;&#x57F7;&#x7B46;&#x74B0;&#x5883;&#x306B;&#x5411;&#x3051;&#x3066;"><span class="toc-number"></span> <span class="toc-text">1.1.  &#x697D;&#x306A;&#x57F7;&#x7B46;&#x74B0;&#x5883;&#x306B;&#x5411;&#x3051;&#x3066;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#vscode-hexo-utils" data-href="#vscode-hexo-utils"><span class="toc-number"></span> <span class="toc-text">1.2.  vscode-hexo-utils</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#remote-development" data-href="#remote-development"><span class="toc-number"></span> <span class="toc-text">1.3.  Remote Development</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#vscode&#x306E;&#x30BF;&#x30B9;&#x30AF;&#x6A5F;&#x80FD;" data-href="#vscode&#x306E;&#x30BF;&#x30B9;&#x30AF;&#x6A5F;&#x80FD;"><span class="toc-number"></span> <span class="toc-text">1.4.  VSCode &#x306E;&#x30BF;&#x30B9;&#x30AF;&#x6A5F;&#x80FD;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#vscode-drawio" data-href="#vscode-drawio"><span class="toc-number"></span> <span class="toc-text">1.5.  vscode-drawio</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x307E;&#x3068;&#x3081;" data-href="#&#x307E;&#x3068;&#x3081;"><span class="toc-number"></span> <span class="toc-text">2.  &#x307E;&#x3068;&#x3081;</span></a></li></ol></body></html>
+          <html><head></head><body><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB" data-href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB"><span class="toc-number"></span> <span class="toc-text">1.  &#x306F;&#x3058;&#x3081;&#x306B;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E6%A5%BD%E3%81%AA%E5%9F%B7%E7%AD%86%E7%92%B0%E5%A2%83%E3%81%AB%E5%90%91%E3%81%91%E3%81%A6" data-href="#%E6%A5%BD%E3%81%AA%E5%9F%B7%E7%AD%86%E7%92%B0%E5%A2%83%E3%81%AB%E5%90%91%E3%81%91%E3%81%A6"><span class="toc-number"></span> <span class="toc-text">1.1.  &#x697D;&#x306A;&#x57F7;&#x7B46;&#x74B0;&#x5883;&#x306B;&#x5411;&#x3051;&#x3066;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#vscode-hexo-utils" data-href="#vscode-hexo-utils"><span class="toc-number"></span> <span class="toc-text">1.2.  vscode-hexo-utils</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#remote-development" data-href="#remote-development"><span class="toc-number"></span> <span class="toc-text">1.3.  Remote Development</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#vscode%E3%81%AE%E3%82%BF%E3%82%B9%E3%82%AF%E6%A9%9F%E8%83%BD" data-href="#vscode%E3%81%AE%E3%82%BF%E3%82%B9%E3%82%AF%E6%A9%9F%E8%83%BD"><span class="toc-number"></span> <span class="toc-text">1.4.  VSCode &#x306E;&#x30BF;&#x30B9;&#x30AF;&#x6A5F;&#x80FD;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#vscode-drawio" data-href="#vscode-drawio"><span class="toc-number"></span> <span class="toc-text">1.5.  vscode-drawio</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E3%81%BE%E3%81%A8%E3%82%81" data-href="#%E3%81%BE%E3%81%A8%E3%82%81"><span class="toc-number"></span> <span class="toc-text">2.  &#x307E;&#x3068;&#x3081;</span></a></li></ol></body></html>
         </div>
       
     </div>
@@ -713,7 +781,7 @@
     <i class="mdui-icon material-icons">&#xe242;</i>
   </button>
   <ul class="mdui-menu mdui-typo theme-post__toc-fab__menu" id="toc-fab-menu" style="padding: 8px;max-height: 80%">
-    <html><head></head><body><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x306F;&#x3058;&#x3081;&#x306B;" data-href="#&#x306F;&#x3058;&#x3081;&#x306B;"><span class="toc-number"></span> <span class="toc-text">1.  &#x306F;&#x3058;&#x3081;&#x306B;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x697D;&#x306A;&#x57F7;&#x7B46;&#x74B0;&#x5883;&#x306B;&#x5411;&#x3051;&#x3066;" data-href="#&#x697D;&#x306A;&#x57F7;&#x7B46;&#x74B0;&#x5883;&#x306B;&#x5411;&#x3051;&#x3066;"><span class="toc-number"></span> <span class="toc-text">1.1.  &#x697D;&#x306A;&#x57F7;&#x7B46;&#x74B0;&#x5883;&#x306B;&#x5411;&#x3051;&#x3066;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#vscode-hexo-utils" data-href="#vscode-hexo-utils"><span class="toc-number"></span> <span class="toc-text">1.2.  vscode-hexo-utils</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#remote-development" data-href="#remote-development"><span class="toc-number"></span> <span class="toc-text">1.3.  Remote Development</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#vscode&#x306E;&#x30BF;&#x30B9;&#x30AF;&#x6A5F;&#x80FD;" data-href="#vscode&#x306E;&#x30BF;&#x30B9;&#x30AF;&#x6A5F;&#x80FD;"><span class="toc-number"></span> <span class="toc-text">1.4.  VSCode &#x306E;&#x30BF;&#x30B9;&#x30AF;&#x6A5F;&#x80FD;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#vscode-drawio" data-href="#vscode-drawio"><span class="toc-number"></span> <span class="toc-text">1.5.  vscode-drawio</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x307E;&#x3068;&#x3081;" data-href="#&#x307E;&#x3068;&#x3081;"><span class="toc-number"></span> <span class="toc-text">2.  &#x307E;&#x3068;&#x3081;</span></a></li></ol></body></html>
+    <html><head></head><body><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB" data-href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB"><span class="toc-number"></span> <span class="toc-text">1.  &#x306F;&#x3058;&#x3081;&#x306B;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E6%A5%BD%E3%81%AA%E5%9F%B7%E7%AD%86%E7%92%B0%E5%A2%83%E3%81%AB%E5%90%91%E3%81%91%E3%81%A6" data-href="#%E6%A5%BD%E3%81%AA%E5%9F%B7%E7%AD%86%E7%92%B0%E5%A2%83%E3%81%AB%E5%90%91%E3%81%91%E3%81%A6"><span class="toc-number"></span> <span class="toc-text">1.1.  &#x697D;&#x306A;&#x57F7;&#x7B46;&#x74B0;&#x5883;&#x306B;&#x5411;&#x3051;&#x3066;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#vscode-hexo-utils" data-href="#vscode-hexo-utils"><span class="toc-number"></span> <span class="toc-text">1.2.  vscode-hexo-utils</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#remote-development" data-href="#remote-development"><span class="toc-number"></span> <span class="toc-text">1.3.  Remote Development</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#vscode%E3%81%AE%E3%82%BF%E3%82%B9%E3%82%AF%E6%A9%9F%E8%83%BD" data-href="#vscode%E3%81%AE%E3%82%BF%E3%82%B9%E3%82%AF%E6%A9%9F%E8%83%BD"><span class="toc-number"></span> <span class="toc-text">1.4.  VSCode &#x306E;&#x30BF;&#x30B9;&#x30AF;&#x6A5F;&#x80FD;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#vscode-drawio" data-href="#vscode-drawio"><span class="toc-number"></span> <span class="toc-text">1.5.  vscode-drawio</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E3%81%BE%E3%81%A8%E3%82%81" data-href="#%E3%81%BE%E3%81%A8%E3%82%81"><span class="toc-number"></span> <span class="toc-text">2.  &#x307E;&#x3068;&#x3081;</span></a></li></ol></body></html>
   </ul>
 </div>
 
@@ -813,12 +881,13 @@
       var links = cardToc.querySelectorAll(".theme-post__toc__content__link");
       var toclist = document.querySelector(".theme-post__toc > ol");
       Array.prototype.forEach.call(links, function(value, index) {
-        var id = (value.getAttribute("href") || "#").slice(1);
+        var id = decodeURI((value.getAttribute("href") || "#").slice(1));
         var element = document.getElementById(id);
+        console.log(element)
         listens.push([value, function() {
           var readed = false;
           var scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
-          if (element.offsetTop <= scrollTop + element.clientHeight + 64) {
+          if (element && element.offsetTop <= scrollTop + element.clientHeight + 64) {
             readed = true;
           } else {
             readed = false;
@@ -887,7 +956,7 @@
 
   <div id="outdated" style="z-index: 9999;">
     <h6>Your browser is out-of-date!</h6>
-    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" target="_blank" rel="noopener" href="http://outdatedbrowser.com/">Update my browser now </a></p>
     <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
   </div>
   <!-- import js -->

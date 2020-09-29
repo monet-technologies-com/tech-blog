@@ -55,7 +55,6 @@
       }
       
     };
-    console.info("%cCopyright © 2018 - " + new Date().getFullYear() +" Halyul\n"+'Theme Version: ' + themeRuntime.versions.theme +'%c\nhttps://github.com/Halyul/hexo-theme-mdui',"font-size: 14px;color: #3F51B5;","color: #448AFF;text-decoration: none");
   </script>
   <!--
         © HEXO MDUI Theme
@@ -63,7 +62,7 @@
         -->
 
   <meta charset="UTF-8">
-  <title>ルート検索OSS (OSRM) の予測精度を調べました - MONET Tech-Blog</title>
+  <title>ルート検索OSS (OSRM) の予測精度を調べました (執筆中) - MONET Tech-Blog</title>
 
   <!-- Favicons -->
   <link rel="icon shortcut" type="image/ico" href="/tech-blog/images/favicon.png">
@@ -80,7 +79,7 @@
   
       <meta name="description" content="This is a tech-blog of MONET-Technologies">
   
-  <meta name="keywords" content="blog, maas, monet, tech">
+  <meta name="keywords" content="blog, maas, monet, tech,OSS,OSM,OSRM">
 
   <!--iOS -->
   <meta name="apple-mobile-web-app-title" content="MONET Tech-Blog">
@@ -95,12 +94,18 @@
   <!-- The Open Graph protocol -->
   <meta property="og:url" content="https://monet-technologies-com.github.io/tech-blog">
   <meta property="og:type" content="blog">
-  <meta property="og:title" content="ルート検索OSS (OSRM) の予測精度を調べました - MONET Tech-Blog | MONET Tech-Blog">
+  <meta property="og:title" content="ルート検索OSS (OSRM) の予測精度を調べました (執筆中) - MONET Tech-Blog | MONET Tech-Blog">
   <meta property="og:image" content="images/favicon.png" />
   
     <meta property="og:description" content="This is a tech-blog of MONET-Technologies">
   
 
+  
+    <meta property="og:article:tag" content="OSS">
+  
+    <meta property="og:article:tag" content="OSM">
+  
+    <meta property="og:article:tag" content="OSRM">
   
 
   
@@ -114,7 +119,7 @@
 
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 5.2.0"></head>
 
 
 <body class="mdui-drawer-body-left mdui-theme-primary-teal mdui-theme-accent-light-blue">
@@ -338,6 +343,12 @@
           </div>
           <div class="mdui-collapse-item-body mdui-list">
             
+              <a href="/tech-blog/categories/OSS%E6%A4%9C%E8%A8%BC/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                OSS検証
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
+              </a>
+            
               <a href="/tech-blog/categories/%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E6%8A%80%E8%A1%93/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
                 おすすめ技術
                 <div style="flex-grow: 1;"></div>
@@ -348,6 +359,12 @@
                 ブログ環境
                 <div style="flex-grow: 1;"></div>
                 <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">3</span>
+              </a>
+            
+              <a href="/tech-blog/categories/%E7%90%86%E8%AB%96%E8%80%83%E5%AF%9F/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                理論考察
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
               </a>
             
           </div>
@@ -398,6 +415,36 @@
                 <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
               </a>
             
+              <a href="/tech-blog/tags/OSS/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                OSS
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
+              </a>
+            
+              <a href="/tech-blog/tags/OSM/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                OSM
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
+              </a>
+            
+              <a href="/tech-blog/tags/OSRM/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                OSRM
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
+              </a>
+            
+              <a href="/tech-blog/tags/%E6%9C%80%E9%81%A9%E5%8C%96/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                最適化
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
+              </a>
+            
+              <a href="/tech-blog/tags/VRP/" class="mdui-list-item mdui-ripple mdui-ripple-white" style="display: flex">
+                VRP
+                <div style="flex-grow: 1;"></div>
+                <span class="theme-menu-badge new mdui-color-theme-accent" data-badge-caption="">1</span>
+              </a>
+            
           </div>
         </div>
       
@@ -444,7 +491,7 @@
     
       <br />
       <span>
-        Last Updated: 2020-09-01
+        Last Updated: 2020-09-29
       </span>
     
     
@@ -487,17 +534,13 @@
   <div class="theme-post__background mdui-color-theme"></div>
   <div class="theme-post__header mdui-color-theme">
     <div class="theme-post__header__title mdui-text-truncate">
-      ルート検索OSS (OSRM) の予測精度を調べました
+      ルート検索OSS (OSRM) の予測精度を調べました (執筆中)
     </div>
     <div class="theme-spacer"></div>
     <div class="theme-post__header__actions mdui-valign">
       <div>
         <span>Posted: </span>
         <span style="float: right">2020-08-31 04:06:55</span>
-        
-        <br>
-          <span>Last Modified: </span>
-          <span>2020-09-01 10:10:12</span>
         
       </div>
       
@@ -528,7 +571,7 @@
 
       
         <li class="mdui-menu-item">
-            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://monet-technologies-com.github.io/tech-blog/tech-blog//tech-blog/2020/08/30/%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2OSS%20(OSRM)%20%E3%81%AE%E4%BA%88%E6%B8%AC%E7%B2%BE%E5%BA%A6%E3%82%92%E8%AA%BF%E3%81%B9%E3%81%BE%E3%81%97%E3%81%9F/index.html&title=ルート検索OSS (OSRM) の予測精度を調べました" target="_blank" class="mdui-ripple">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://monet-technologies-com.github.io/tech-blog/tech-blog//tech-blog/2020/08/30/%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2OSS%20(OSRM)%20%E3%81%AE%E4%BA%88%E6%B8%AC%E7%B2%BE%E5%BA%A6%E3%82%92%E8%AA%BF%E3%81%B9%E3%81%BE%E3%81%97%E3%81%9F/index.html&title=ルート検索OSS (OSRM) の予測精度を調べました (執筆中)" target="_blank" class="mdui-ripple">
                 Share to Linkedin
             </a>
         </li>
@@ -540,7 +583,7 @@
 
       
         <li class="mdui-menu-item">
-            <a href="https://twitter.com/intent/tweet?text=ルート検索OSS (OSRM) の予測精度を調べました&url=https://monet-technologies-com.github.io/tech-blog/tech-blog//tech-blog/2020/08/30/%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2OSS%20(OSRM)%20%E3%81%AE%E4%BA%88%E6%B8%AC%E7%B2%BE%E5%BA%A6%E3%82%92%E8%AA%BF%E3%81%B9%E3%81%BE%E3%81%97%E3%81%9F/index.html&via=MONET Technologies" target="_blank" class="mdui-ripple">
+            <a href="https://twitter.com/intent/tweet?text=ルート検索OSS (OSRM) の予測精度を調べました (執筆中)&url=https://monet-technologies-com.github.io/tech-blog/tech-blog//tech-blog/2020/08/30/%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2OSS%20(OSRM)%20%E3%81%AE%E4%BA%88%E6%B8%AC%E7%B2%BE%E5%BA%A6%E3%82%92%E8%AA%BF%E3%81%B9%E3%81%BE%E3%81%97%E3%81%9F/index.html&via=MONET Technologies" target="_blank" class="mdui-ripple">
                 Share to Twitter
             </a>
         </li>
@@ -568,112 +611,55 @@
         
         
         <section class="mdui-typo theme-post__card__content">
-          <p>システム部の登山担当太田です<br>
-山はいいぞ</p>
-<p>今回はルート検索の OSS である OSRM を検証した話です<br>
-地図データには OSM を用いています<br>
-導入は別で書きます</p>
-<h1 id="前談"><a class="markdownIt-Anchor" href="#前談">#</a> 前談</h1>
-<h2 id="ルート検索のコスト削減"><a class="markdownIt-Anchor" href="#ルート検索のコスト削減">#</a> ルート検索のコスト削減</h2>
-<p>MONET ではオンデマンドバスサービスを提供していますが<br>
-その裏ではルート検索による時間取得のロジックが何度もはしっています<br>
-マッチングの最適化など今後進めていくにあたってもルート検索のコストは抑えたいところです<br>
-そこで信頼性をある程度担保して低コストなルート検索できないかな？<br>
-ということで OSS の有効性を検証しました</p>
-<h2 id="osmとは"><a class="markdownIt-Anchor" href="#osmとは">#</a> OSM とは</h2>
-<p>素晴らしい取り組みとして Open Street Map (OSM) という地理情報をみんなで作って行こうぜ！オープンライセンスで誰にでも使えるようにしようぜ！というイカしたプロジェクトがあります<br>
- Open Street Map では所々足りていない情報はありますが<br>
-道路のクラス分けや店舗の情報までオープンライセンスと考えれば十分すぎるほどの地理データが利用できます<br>
-<img src="2020-08-31T130832.png" alt="2020-08-31T130832"></p>
+          <h1 id="執筆中の記事です-ドラフトです"><a href="#執筆中の記事です-ドラフトです" class="headerlink" title="執筆中の記事です (ドラフトです)"></a>執筆中の記事です (ドラフトです)</h1><p>システム部の登山担当太田です<br>山はいいぞ</p>
+<p>今回はルート検索のOSSであるOSRMを検証した話です<br>地図データにはOSMを用いています<br>導入は別で書きます</p>
+<h1 id="前談"><a href="#前談" class="headerlink" title="前談"></a>前談</h1><h2 id="ルート検索のコスト削減"><a href="#ルート検索のコスト削減" class="headerlink" title="ルート検索のコスト削減"></a>ルート検索のコスト削減</h2><p>MONETではオンデマンドバスサービスを提供していますが<br>その裏ではルート検索による時間取得のロジックが何度もはしっています<br>マッチングの最適化など今後進めていくにあたってもルート検索のコストは抑えたいところです<br>そこで信頼性をある程度担保して低コストなルート検索できないかな？<br>ということでOSSの有効性を検証しました</p>
+<h2 id="OSMとは"><a href="#OSMとは" class="headerlink" title="OSMとは"></a>OSMとは</h2><p>素晴らしい取り組みとしてOpen Street Map (OSM) という地理情報をみんなで作って行こうぜ！オープンライセンスで誰にでも使えるようにしようぜ！というイカしたプロジェクトがあります<br>Open Street Mapでは所々足りていない情報はありますが<br>道路のクラス分けや店舗の情報までオープンライセンスと考えれば十分すぎるほどの地理データが利用できます<br><img src="2020-08-31T130832.png" alt="2020-08-31T130832"></p>
 <div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable ">
 <thead>
 <tr>
 <th></th>
-<th>OSM で利用可能な情報</th>
+<th>OSMで利用可能な情報</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>○</td>
-<td>道路分類，建物分類，各名称</td>
+<td>道路分類, 建物分類, 各名称</td>
 </tr>
 <tr>
 <td>×</td>
-<td>公共交通機関，交通量</td>
+<td>公共交通機関, 交通量</td>
 </tr>
-</tbody>
-</table></div>
- <br>
-<p>もちろん自分たちで編集ができ，自宅の周りとか眺めてポチポチするだけで世界の地理データベース作成に貢献できるのでぜひやってみてください！</p>
-<h2 id="osrmとは"><a class="markdownIt-Anchor" href="#osrmとは">#</a> OSRM とは</h2>
-<p>ルート検索エンジンの OSS です.<br>
- 中身のアルゴリズムは multi dikstra で OSM の地図情報を基に<br>
-最短ルートを決定します. (他のアルゴリズムも使用可)<br>
- 高速道路を省いたり，U ターンを禁止したりなど<br>
-痒いところの設定までできてしまう優れものです.<br>
-Mapbox でも採用されていたりします.<a href="https://blog.mapbox.com/mapbox-directions-powered-by-osrm-4-8-1-cf2c45ae9aa8" target="_blank" rel="noopener"> ブログ記事</a><br>
-ルート検索だけでなく<br>
- MapBox でも採用されていたりします<br>
-このルート検索エンジン使ってどれくらい正しく予測できるの？<br>
-というのが今回のお題です</p>
-<h2 id="osrmってどんな感じで動いてますん"><a class="markdownIt-Anchor" href="#osrmってどんな感じで動いてますん">#</a> OSRM ってどんな感じで動いてますん</h2>
-<p>実装までは<a href="">他記事</a>でも紹介されているので省きますが<br>
-ザクっとこんな感じです</p>
+<tr>
+<td><br></td>
+<td></td>
+</tr>
+</tbody></table></div>
+<p>もちろん自分たちで編集ができ, 自宅の周りとか眺めてポチポチするだけで世界の地理データベース作成に貢献できるのでぜひやってみてください！</p>
+<h2 id="OSRMとは"><a href="#OSRMとは" class="headerlink" title="OSRMとは"></a>OSRMとは</h2><p>ルート検索エンジンのOSSです.<br>中身のアルゴリズムはmulti dikstraでOSMの地図情報を基に<br>最短ルートを決定します. (他のアルゴリズムも使用可)<br>高速道路を省いたり, Uターンを禁止したりなど<br>痒いところの設定までできてしまう優れものです.<br>Mapboxでも採用されていたりします.<a target="_blank" rel="noopener" href="https://blog.mapbox.com/mapbox-directions-powered-by-osrm-4-8-1-cf2c45ae9aa8">ブログ記事</a><br>ルート検索だけでなく<br>MapBoxでも採用されていたりします<br>このルート検索エンジン使ってどれくらい正しく予測できるの？<br>というのが今回のお題です</p>
+<h2 id="OSRMってどんな感じで動いてますん"><a href="#OSRMってどんな感じで動いてますん" class="headerlink" title="OSRMってどんな感じで動いてますん"></a>OSRMってどんな感じで動いてますん</h2><p>実装までは<a href="">他記事</a>でも紹介されているので省きますが<br>ザクっとこんな感じです</p>
 <ol>
-<li>OSM の最新地図情報を保存</li>
-<li>lua ファイル定義に従って重み付けされたグラフを作成</li>
-<li>HTTP サーバーを起動してリクエスト</li>
+<li>OSMの最新地図情報を保存</li>
+<li>luaファイル定義に従って重み付けされたグラフを作成</li>
+<li>HTTPサーバーを起動してリクエスト</li>
 </ol>
-<h1 id="検証"><a class="markdownIt-Anchor" href="#検証">#</a> 検証</h1>
-<p>最初に東京都内の限られた範囲でランダムに 2 点を<br>
-限られた範囲でのルート検索制度を検証しました.<br>
- 検証範囲は以下になります.<br>
-<img src="2020-09-01T095105.png" alt="2020-09-01T095105"><br>
- この中で 1000 回程度 Google Direction API, OSRM API どちらも叩いて統計差がどれくらいか，変なルート通っていないか比較しました.</p>
+<h1 id="検証"><a href="#検証" class="headerlink" title="検証"></a>検証</h1><p>最初に東京都内の限られた範囲でランダムに2点を<br>限られた範囲でのルート検索制度を検証しました.<br>検証範囲は以下になります.<br><img src="2020-09-01T095105.png" alt="2020-09-01T095105"><br>この中で1000回程度Google Direction API, OSRM APIどちらも叩いて統計差がどれくらいか, 変なルート通っていないか比較しました.</p>
 <p>設定はこんな感じです</p>
 <ul>
 <li>両方とも高速道路を通らない</li>
-<li>Direction API は trafficMode=optimistic</li>
-<li>OSRM は交通量情報を考慮しない</li>
-<li>OSRM の設定 lua ファイルはデフォルト (car.lua) のまま</li>
+<li>Direction APIはtrafficMode=optimistic</li>
+<li>OSRMは交通量情報を考慮しない</li>
+<li>OSRMの設定luaファイルはデフォルト (car.lua) のまま</li>
 </ul>
-<h1 id="結果"><a class="markdownIt-Anchor" href="#結果">#</a> 結果</h1>
-<h2 id="予測結果"><a class="markdownIt-Anchor" href="#予測結果">#</a> 予測結果</h2>
-<p>ランダムに 1 つ抜き出してきました.<br>
- ルートは似たようなルートを通っていますが<br>
-時間が結構ずれています.<br>
-<img src="2020-09-01T095718.png" alt="2020-09-01T095718"></p>
-<h2 id="距離誤差時間誤差"><a class="markdownIt-Anchor" href="#距離誤差時間誤差">#</a> 距離誤差＆時間誤差</h2>
-<p>距離 / 時間の相対誤差のヒストグラムは以下のようになりました.<br>
-<img src="2020-09-01T095458.png" alt="2020-09-01T095458"><br>
- ルート可視化と同様に，距離誤差はデフォルトでもある程度正しいですが<br>
-時間誤差が大きいので修正が必要です.</p>
-<h2 id="速い道路-遅い道路の区分け"><a class="markdownIt-Anchor" href="#速い道路-遅い道路の区分け">#</a> 速い道路，遅い道路の区分け</h2>
-<p>適当に低速，中速，高速で分けると<br>
-高速の比率が大きいほど予測を外していることが分かりました.<br>
-<img src="2020-09-01T100026.png" alt="2020-09-01T100026"></p>
-<h1 id="チューニング"><a class="markdownIt-Anchor" href="#チューニング">#</a> チューニング</h1>
-<p>上記の結果を踏まえてチューニングを行いました.<br>
-lua ファイル内では道路のタグ名ごとに初期設定速度を入れています.<br>
- 今回はそちらを定数倍する大雑把な修正を行いました.</p>
+<h1 id="結果"><a href="#結果" class="headerlink" title="結果"></a>結果</h1><h2 id="予測結果"><a href="#予測結果" class="headerlink" title="予測結果"></a>予測結果</h2><p>ランダムに1つ抜き出してきました.<br>ルートは似たようなルートを通っていますが<br>時間が結構ずれています.<br><img src="2020-09-01T095718.png" alt="2020-09-01T095718"></p>
+<h2 id="距離誤差＆時間誤差"><a href="#距離誤差＆時間誤差" class="headerlink" title="距離誤差＆時間誤差"></a>距離誤差＆時間誤差</h2><p>距離/時間の相対誤差のヒストグラムは以下のようになりました.<br><img src="2020-09-01T095458.png" alt="2020-09-01T095458"><br>ルート可視化と同様に, 距離誤差はデフォルトでもある程度正しいですが<br>時間誤差が大きいので修正が必要です.</p>
+<h2 id="速い道路-遅い道路の区分け"><a href="#速い道路-遅い道路の区分け" class="headerlink" title="速い道路, 遅い道路の区分け"></a>速い道路, 遅い道路の区分け</h2><p>適当に低速, 中速, 高速で分けると<br>高速の比率が大きいほど予測を外していることが分かりました.<br><img src="2020-09-01T100026.png" alt="2020-09-01T100026"></p>
+<h1 id="チューニング"><a href="#チューニング" class="headerlink" title="チューニング"></a>チューニング</h1><p>上記の結果を踏まえてチューニングを行いました.<br>luaファイル内では道路のタグ名ごとに初期設定速度を入れています.<br>今回はそちらを定数倍する大雑把な修正を行いました.</p>
 <p><img src="2020-09-01T100311.png" alt="2020-09-01T100311"></p>
 <p>これで統計的な情報をある程度合わせられる！(チューニングですので)</p>
-<h1 id="チューニング結果"><a class="markdownIt-Anchor" href="#チューニング結果">#</a> チューニング結果</h1>
-<p>こんな感じになりました<br>
-散布図<br>
-<img src="2020-09-01T100439.png" alt="2020-09-01T100439"><br>
- ヒストグラム<br>
-<img src="2020-09-01T100501.png" alt="2020-09-01T100501"></p>
-<p>平均はあるていど合わせられましたが分散まで Google の予測と同様とはやはり行かなかったです.<br>
- 交通量の考慮も入ってくるのでそのままの代用は難しいですね.<br>
- 一方，大きく外すわけではないので裏のロジックに使用したりとか<br>
-使い道を考えれば導入できるのでは？という感触でした</p>
-<h1 id="まとめ"><a class="markdownIt-Anchor" href="#まとめ">#</a> まとめ</h1>
-<p>Google と比較して検証しました<br>
-全体大きくは外さないですがダメな時もありました<br>
-どこまでの精度求めるかによりますが<br>
-存外使えるかもという事で裏側ロジックでの実装と導入<br>
-どの部分に使うかを模索することになりました.</p>
+<h1 id="チューニング結果"><a href="#チューニング結果" class="headerlink" title="チューニング結果"></a>チューニング結果</h1><p>こんな感じになりました<br>散布図<br><img src="2020-09-01T100439.png" alt="2020-09-01T100439"><br>ヒストグラム<br><img src="2020-09-01T100501.png" alt="2020-09-01T100501"></p>
+<p>平均はあるていど合わせられましたが分散までGoogleの予測と同様とはやはり行かなかったです.<br>交通量の考慮も入ってくるのでそのままの代用は難しいですね.<br>一方, 大きく外すわけではないので裏のロジックに使用したりとか<br>使い道を考えれば導入できるのでは？という感触でした</p>
+<h1 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h1><p>Googleと比較して検証しました<br>全体大きくは外さないですがダメな時もありました<br>どこまでの精度求めるかによりますが<br>存外使えるかもという事で裏側ロジックでの実装と導入<br>どの部分に使うかを模索することになりました.</p>
 
         </section>
 
@@ -699,23 +685,80 @@ lua ファイル内では道路のタグ名ごとに初期設定速度を入れ�
             
             <div class="theme-spacer"></div>
             
+              <div class="mdui-chip theme-post__card__chip--bg theme-post__card__chip--margin">
+                <span class="mdui-chip-icon theme-post__card__chip--bg"><i class="mdui-icon mdui-text-color-black-icon material-icons">&#xe149;</i></span>
+              </div>
+              <div class="mdui-typo">
+                
+                  <a href="/tech-blog/categories/OSS%E6%A4%9C%E8%A8%BC/">
+                    <span>OSS検証</span>
+                  </a>
+                
+              </div>
+            
+            
+              <div class="mdui-chip theme-post__card__chip--bg theme-post__card__chip--margin">
+                <span class="mdui-chip-icon theme-post__card__chip--bg"><i class="mdui-icon mdui-text-color-black-icon fa fa-tags"></i></span>
+              </div>
+              <div class="mdui-typo">
+                
+                  <a href="/tech-blog/tags/OSS/">
+                    <span>OSS</span>
+                  </a>
+                
+                  <a href="/tech-blog/tags/OSM/">
+                    <span>OSM</span>
+                  </a>
+                
+                  <a href="/tech-blog/tags/OSRM/">
+                    <span>OSRM</span>
+                  </a>
+                
+              </div>
             
           </section>
         
 
         
           
-            <script type="text/javascript">
-              themeRuntime.commentRest.function = function (newIdentifier, newUrl, newTitle) {
-                return
-              }
-            </script>
+            <section>
+              <div class="mdui-divider"></div>
+            </section>
+            <section class="theme-post__card__comment">
+              
+  <div id="disqus_thread"></div>
+  <script>
+    themeRuntime.commentRest.function = function (newIdentifier, newUrl, newTitle) {
+      DISQUS.reset({
+        reload: true,
+        config: function () {
+          this.page.identifier = newIdentifier;
+          this.page.url = newUrl;
+          this.page.title = newTitle;
+        }
+      });
+    }
+    var disqus_config = function () {
+      this.page.url = 'https://monet-technologies-com.github.io/tech-blog/2020/08/30/%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2OSS%20(OSRM)%20%E3%81%AE%E4%BA%88%E6%B8%AC%E7%B2%BE%E5%BA%A6%E3%82%92%E8%AA%BF%E3%81%B9%E3%81%BE%E3%81%97%E3%81%9F/';  // Replace PAGE_URL with your page's canonical URL variable
+      this.page.identifier = 'https://monet-technologies-com.github.io/tech-blog/2020/08/30/%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2OSS%20(OSRM)%20%E3%81%AE%E4%BA%88%E6%B8%AC%E7%B2%BE%E5%BA%A6%E3%82%92%E8%AA%BF%E3%81%B9%E3%81%BE%E3%81%97%E3%81%9F/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    (function() { // DON'T EDIT BELOW THIS LINE
+      var d = document, s = d.createElement('script');
+      s.src = '//monet-tech-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+            </section>
           
         
       </article>
       
         <div class="mdui-color-theme theme-post__toc">
-          <html><head></head><body><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x524D;&#x8AC7;" data-href="#&#x524D;&#x8AC7;"><span class="toc-number"></span> <span class="toc-text">1.  &#x524D;&#x8AC7;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x30EB;&#x30FC;&#x30C8;&#x691C;&#x7D22;&#x306E;&#x30B3;&#x30B9;&#x30C8;&#x524A;&#x6E1B;" data-href="#&#x30EB;&#x30FC;&#x30C8;&#x691C;&#x7D22;&#x306E;&#x30B3;&#x30B9;&#x30C8;&#x524A;&#x6E1B;"><span class="toc-number"></span> <span class="toc-text">1.1.  &#x30EB;&#x30FC;&#x30C8;&#x691C;&#x7D22;&#x306E;&#x30B3;&#x30B9;&#x30C8;&#x524A;&#x6E1B;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#osm&#x3068;&#x306F;" data-href="#osm&#x3068;&#x306F;"><span class="toc-number"></span> <span class="toc-text">1.2.  OSM &#x3068;&#x306F;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#osrm&#x3068;&#x306F;" data-href="#osrm&#x3068;&#x306F;"><span class="toc-number"></span> <span class="toc-text">1.3.  OSRM &#x3068;&#x306F;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#osrm&#x3063;&#x3066;&#x3069;&#x3093;&#x306A;&#x611F;&#x3058;&#x3067;&#x52D5;&#x3044;&#x3066;&#x307E;&#x3059;&#x3093;" data-href="#osrm&#x3063;&#x3066;&#x3069;&#x3093;&#x306A;&#x611F;&#x3058;&#x3067;&#x52D5;&#x3044;&#x3066;&#x307E;&#x3059;&#x3093;"><span class="toc-number"></span> <span class="toc-text">1.4.  OSRM &#x3063;&#x3066;&#x3069;&#x3093;&#x306A;&#x611F;&#x3058;&#x3067;&#x52D5;&#x3044;&#x3066;&#x307E;&#x3059;&#x3093;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x691C;&#x8A3C;" data-href="#&#x691C;&#x8A3C;"><span class="toc-number"></span> <span class="toc-text">2.  &#x691C;&#x8A3C;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x7D50;&#x679C;" data-href="#&#x7D50;&#x679C;"><span class="toc-number"></span> <span class="toc-text">3.  &#x7D50;&#x679C;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x4E88;&#x6E2C;&#x7D50;&#x679C;" data-href="#&#x4E88;&#x6E2C;&#x7D50;&#x679C;"><span class="toc-number"></span> <span class="toc-text">3.1.  &#x4E88;&#x6E2C;&#x7D50;&#x679C;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x8DDD;&#x96E2;&#x8AA4;&#x5DEE;&#x6642;&#x9593;&#x8AA4;&#x5DEE;" data-href="#&#x8DDD;&#x96E2;&#x8AA4;&#x5DEE;&#x6642;&#x9593;&#x8AA4;&#x5DEE;"><span class="toc-number"></span> <span class="toc-text">3.2.  &#x8DDD;&#x96E2;&#x8AA4;&#x5DEE;&#xFF06;&#x6642;&#x9593;&#x8AA4;&#x5DEE;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x901F;&#x3044;&#x9053;&#x8DEF;-&#x9045;&#x3044;&#x9053;&#x8DEF;&#x306E;&#x533A;&#x5206;&#x3051;" data-href="#&#x901F;&#x3044;&#x9053;&#x8DEF;-&#x9045;&#x3044;&#x9053;&#x8DEF;&#x306E;&#x533A;&#x5206;&#x3051;"><span class="toc-number"></span> <span class="toc-text">3.3.  &#x901F;&#x3044;&#x9053;&#x8DEF;&#xFF0C;&#x9045;&#x3044;&#x9053;&#x8DEF;&#x306E;&#x533A;&#x5206;&#x3051;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;" data-href="#&#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;"><span class="toc-number"></span> <span class="toc-text">4.  &#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;&#x7D50;&#x679C;" data-href="#&#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;&#x7D50;&#x679C;"><span class="toc-number"></span> <span class="toc-text">5.  &#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;&#x7D50;&#x679C;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x307E;&#x3068;&#x3081;" data-href="#&#x307E;&#x3068;&#x3081;"><span class="toc-number"></span> <span class="toc-text">6.  &#x307E;&#x3068;&#x3081;</span></a></li></ol></body></html>
+          <html><head></head><body><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E5%9F%B7%E7%AD%86%E4%B8%AD%E3%81%AE%E8%A8%98%E4%BA%8B%E3%81%A7%E3%81%99-%E3%83%89%E3%83%A9%E3%83%95%E3%83%88%E3%81%A7%E3%81%99" data-href="#%E5%9F%B7%E7%AD%86%E4%B8%AD%E3%81%AE%E8%A8%98%E4%BA%8B%E3%81%A7%E3%81%99-%E3%83%89%E3%83%A9%E3%83%95%E3%83%88%E3%81%A7%E3%81%99"><span class="toc-number"></span> <span class="toc-text">1. &#x57F7;&#x7B46;&#x4E2D;&#x306E;&#x8A18;&#x4E8B;&#x3067;&#x3059; (&#x30C9;&#x30E9;&#x30D5;&#x30C8;&#x3067;&#x3059;)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E5%89%8D%E8%AB%87" data-href="#%E5%89%8D%E8%AB%87"><span class="toc-number"></span> <span class="toc-text">2. &#x524D;&#x8AC7;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2%E3%81%AE%E3%82%B3%E3%82%B9%E3%83%88%E5%89%8A%E6%B8%9B" data-href="#%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2%E3%81%AE%E3%82%B3%E3%82%B9%E3%83%88%E5%89%8A%E6%B8%9B"><span class="toc-number"></span> <span class="toc-text">2.1. &#x30EB;&#x30FC;&#x30C8;&#x691C;&#x7D22;&#x306E;&#x30B3;&#x30B9;&#x30C8;&#x524A;&#x6E1B;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#OSM%E3%81%A8%E3%81%AF" data-href="#OSM%E3%81%A8%E3%81%AF"><span class="toc-number"></span> <span class="toc-text">2.2. OSM&#x3068;&#x306F;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#OSRM%E3%81%A8%E3%81%AF" data-href="#OSRM%E3%81%A8%E3%81%AF"><span class="toc-number"></span> <span class="toc-text">2.3. OSRM&#x3068;&#x306F;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#OSRM%E3%81%A3%E3%81%A6%E3%81%A9%E3%82%93%E3%81%AA%E6%84%9F%E3%81%98%E3%81%A7%E5%8B%95%E3%81%84%E3%81%A6%E3%81%BE%E3%81%99%E3%82%93" data-href="#OSRM%E3%81%A3%E3%81%A6%E3%81%A9%E3%82%93%E3%81%AA%E6%84%9F%E3%81%98%E3%81%A7%E5%8B%95%E3%81%84%E3%81%A6%E3%81%BE%E3%81%99%E3%82%93"><span class="toc-number"></span> <span class="toc-text">2.4. OSRM&#x3063;&#x3066;&#x3069;&#x3093;&#x306A;&#x611F;&#x3058;&#x3067;&#x52D5;&#x3044;&#x3066;&#x307E;&#x3059;&#x3093;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E6%A4%9C%E8%A8%BC" data-href="#%E6%A4%9C%E8%A8%BC"><span class="toc-number"></span> <span class="toc-text">3. &#x691C;&#x8A3C;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E7%B5%90%E6%9E%9C" data-href="#%E7%B5%90%E6%9E%9C"><span class="toc-number"></span> <span class="toc-text">4. &#x7D50;&#x679C;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E4%BA%88%E6%B8%AC%E7%B5%90%E6%9E%9C" data-href="#%E4%BA%88%E6%B8%AC%E7%B5%90%E6%9E%9C"><span class="toc-number"></span> <span class="toc-text">4.1. &#x4E88;&#x6E2C;&#x7D50;&#x679C;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E8%B7%9D%E9%9B%A2%E8%AA%A4%E5%B7%AE%EF%BC%86%E6%99%82%E9%96%93%E8%AA%A4%E5%B7%AE" data-href="#%E8%B7%9D%E9%9B%A2%E8%AA%A4%E5%B7%AE%EF%BC%86%E6%99%82%E9%96%93%E8%AA%A4%E5%B7%AE"><span class="toc-number"></span> <span class="toc-text">4.2. &#x8DDD;&#x96E2;&#x8AA4;&#x5DEE;&#xFF06;&#x6642;&#x9593;&#x8AA4;&#x5DEE;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E9%80%9F%E3%81%84%E9%81%93%E8%B7%AF-%E9%81%85%E3%81%84%E9%81%93%E8%B7%AF%E3%81%AE%E5%8C%BA%E5%88%86%E3%81%91" data-href="#%E9%80%9F%E3%81%84%E9%81%93%E8%B7%AF-%E9%81%85%E3%81%84%E9%81%93%E8%B7%AF%E3%81%AE%E5%8C%BA%E5%88%86%E3%81%91"><span class="toc-number"></span> <span class="toc-text">4.3. &#x901F;&#x3044;&#x9053;&#x8DEF;, &#x9045;&#x3044;&#x9053;&#x8DEF;&#x306E;&#x533A;&#x5206;&#x3051;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E3%83%81%E3%83%A5%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0" data-href="#%E3%83%81%E3%83%A5%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0"><span class="toc-number"></span> <span class="toc-text">5. &#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E3%83%81%E3%83%A5%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0%E7%B5%90%E6%9E%9C" data-href="#%E3%83%81%E3%83%A5%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0%E7%B5%90%E6%9E%9C"><span class="toc-number"></span> <span class="toc-text">6. &#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;&#x7D50;&#x679C;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E3%81%BE%E3%81%A8%E3%82%81" data-href="#%E3%81%BE%E3%81%A8%E3%82%81"><span class="toc-number"></span> <span class="toc-text">7. &#x307E;&#x3068;&#x3081;</span></a></li></ol></body></html>
         </div>
       
     </div>
@@ -729,7 +772,7 @@ lua ファイル内では道路のタグ名ごとに初期設定速度を入れ�
     <i class="mdui-icon material-icons">&#xe242;</i>
   </button>
   <ul class="mdui-menu mdui-typo theme-post__toc-fab__menu" id="toc-fab-menu" style="padding: 8px;max-height: 80%">
-    <html><head></head><body><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x524D;&#x8AC7;" data-href="#&#x524D;&#x8AC7;"><span class="toc-number"></span> <span class="toc-text">1.  &#x524D;&#x8AC7;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x30EB;&#x30FC;&#x30C8;&#x691C;&#x7D22;&#x306E;&#x30B3;&#x30B9;&#x30C8;&#x524A;&#x6E1B;" data-href="#&#x30EB;&#x30FC;&#x30C8;&#x691C;&#x7D22;&#x306E;&#x30B3;&#x30B9;&#x30C8;&#x524A;&#x6E1B;"><span class="toc-number"></span> <span class="toc-text">1.1.  &#x30EB;&#x30FC;&#x30C8;&#x691C;&#x7D22;&#x306E;&#x30B3;&#x30B9;&#x30C8;&#x524A;&#x6E1B;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#osm&#x3068;&#x306F;" data-href="#osm&#x3068;&#x306F;"><span class="toc-number"></span> <span class="toc-text">1.2.  OSM &#x3068;&#x306F;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#osrm&#x3068;&#x306F;" data-href="#osrm&#x3068;&#x306F;"><span class="toc-number"></span> <span class="toc-text">1.3.  OSRM &#x3068;&#x306F;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#osrm&#x3063;&#x3066;&#x3069;&#x3093;&#x306A;&#x611F;&#x3058;&#x3067;&#x52D5;&#x3044;&#x3066;&#x307E;&#x3059;&#x3093;" data-href="#osrm&#x3063;&#x3066;&#x3069;&#x3093;&#x306A;&#x611F;&#x3058;&#x3067;&#x52D5;&#x3044;&#x3066;&#x307E;&#x3059;&#x3093;"><span class="toc-number"></span> <span class="toc-text">1.4.  OSRM &#x3063;&#x3066;&#x3069;&#x3093;&#x306A;&#x611F;&#x3058;&#x3067;&#x52D5;&#x3044;&#x3066;&#x307E;&#x3059;&#x3093;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x691C;&#x8A3C;" data-href="#&#x691C;&#x8A3C;"><span class="toc-number"></span> <span class="toc-text">2.  &#x691C;&#x8A3C;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x7D50;&#x679C;" data-href="#&#x7D50;&#x679C;"><span class="toc-number"></span> <span class="toc-text">3.  &#x7D50;&#x679C;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x4E88;&#x6E2C;&#x7D50;&#x679C;" data-href="#&#x4E88;&#x6E2C;&#x7D50;&#x679C;"><span class="toc-number"></span> <span class="toc-text">3.1.  &#x4E88;&#x6E2C;&#x7D50;&#x679C;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x8DDD;&#x96E2;&#x8AA4;&#x5DEE;&#x6642;&#x9593;&#x8AA4;&#x5DEE;" data-href="#&#x8DDD;&#x96E2;&#x8AA4;&#x5DEE;&#x6642;&#x9593;&#x8AA4;&#x5DEE;"><span class="toc-number"></span> <span class="toc-text">3.2.  &#x8DDD;&#x96E2;&#x8AA4;&#x5DEE;&#xFF06;&#x6642;&#x9593;&#x8AA4;&#x5DEE;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x901F;&#x3044;&#x9053;&#x8DEF;-&#x9045;&#x3044;&#x9053;&#x8DEF;&#x306E;&#x533A;&#x5206;&#x3051;" data-href="#&#x901F;&#x3044;&#x9053;&#x8DEF;-&#x9045;&#x3044;&#x9053;&#x8DEF;&#x306E;&#x533A;&#x5206;&#x3051;"><span class="toc-number"></span> <span class="toc-text">3.3.  &#x901F;&#x3044;&#x9053;&#x8DEF;&#xFF0C;&#x9045;&#x3044;&#x9053;&#x8DEF;&#x306E;&#x533A;&#x5206;&#x3051;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;" data-href="#&#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;"><span class="toc-number"></span> <span class="toc-text">4.  &#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;&#x7D50;&#x679C;" data-href="#&#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;&#x7D50;&#x679C;"><span class="toc-number"></span> <span class="toc-text">5.  &#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;&#x7D50;&#x679C;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#&#x307E;&#x3068;&#x3081;" data-href="#&#x307E;&#x3068;&#x3081;"><span class="toc-number"></span> <span class="toc-text">6.  &#x307E;&#x3068;&#x3081;</span></a></li></ol></body></html>
+    <html><head></head><body><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E5%9F%B7%E7%AD%86%E4%B8%AD%E3%81%AE%E8%A8%98%E4%BA%8B%E3%81%A7%E3%81%99-%E3%83%89%E3%83%A9%E3%83%95%E3%83%88%E3%81%A7%E3%81%99" data-href="#%E5%9F%B7%E7%AD%86%E4%B8%AD%E3%81%AE%E8%A8%98%E4%BA%8B%E3%81%A7%E3%81%99-%E3%83%89%E3%83%A9%E3%83%95%E3%83%88%E3%81%A7%E3%81%99"><span class="toc-number"></span> <span class="toc-text">1. &#x57F7;&#x7B46;&#x4E2D;&#x306E;&#x8A18;&#x4E8B;&#x3067;&#x3059; (&#x30C9;&#x30E9;&#x30D5;&#x30C8;&#x3067;&#x3059;)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E5%89%8D%E8%AB%87" data-href="#%E5%89%8D%E8%AB%87"><span class="toc-number"></span> <span class="toc-text">2. &#x524D;&#x8AC7;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2%E3%81%AE%E3%82%B3%E3%82%B9%E3%83%88%E5%89%8A%E6%B8%9B" data-href="#%E3%83%AB%E3%83%BC%E3%83%88%E6%A4%9C%E7%B4%A2%E3%81%AE%E3%82%B3%E3%82%B9%E3%83%88%E5%89%8A%E6%B8%9B"><span class="toc-number"></span> <span class="toc-text">2.1. &#x30EB;&#x30FC;&#x30C8;&#x691C;&#x7D22;&#x306E;&#x30B3;&#x30B9;&#x30C8;&#x524A;&#x6E1B;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#OSM%E3%81%A8%E3%81%AF" data-href="#OSM%E3%81%A8%E3%81%AF"><span class="toc-number"></span> <span class="toc-text">2.2. OSM&#x3068;&#x306F;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#OSRM%E3%81%A8%E3%81%AF" data-href="#OSRM%E3%81%A8%E3%81%AF"><span class="toc-number"></span> <span class="toc-text">2.3. OSRM&#x3068;&#x306F;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#OSRM%E3%81%A3%E3%81%A6%E3%81%A9%E3%82%93%E3%81%AA%E6%84%9F%E3%81%98%E3%81%A7%E5%8B%95%E3%81%84%E3%81%A6%E3%81%BE%E3%81%99%E3%82%93" data-href="#OSRM%E3%81%A3%E3%81%A6%E3%81%A9%E3%82%93%E3%81%AA%E6%84%9F%E3%81%98%E3%81%A7%E5%8B%95%E3%81%84%E3%81%A6%E3%81%BE%E3%81%99%E3%82%93"><span class="toc-number"></span> <span class="toc-text">2.4. OSRM&#x3063;&#x3066;&#x3069;&#x3093;&#x306A;&#x611F;&#x3058;&#x3067;&#x52D5;&#x3044;&#x3066;&#x307E;&#x3059;&#x3093;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E6%A4%9C%E8%A8%BC" data-href="#%E6%A4%9C%E8%A8%BC"><span class="toc-number"></span> <span class="toc-text">3. &#x691C;&#x8A3C;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E7%B5%90%E6%9E%9C" data-href="#%E7%B5%90%E6%9E%9C"><span class="toc-number"></span> <span class="toc-text">4. &#x7D50;&#x679C;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E4%BA%88%E6%B8%AC%E7%B5%90%E6%9E%9C" data-href="#%E4%BA%88%E6%B8%AC%E7%B5%90%E6%9E%9C"><span class="toc-number"></span> <span class="toc-text">4.1. &#x4E88;&#x6E2C;&#x7D50;&#x679C;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E8%B7%9D%E9%9B%A2%E8%AA%A4%E5%B7%AE%EF%BC%86%E6%99%82%E9%96%93%E8%AA%A4%E5%B7%AE" data-href="#%E8%B7%9D%E9%9B%A2%E8%AA%A4%E5%B7%AE%EF%BC%86%E6%99%82%E9%96%93%E8%AA%A4%E5%B7%AE"><span class="toc-number"></span> <span class="toc-text">4.2. &#x8DDD;&#x96E2;&#x8AA4;&#x5DEE;&#xFF06;&#x6642;&#x9593;&#x8AA4;&#x5DEE;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E9%80%9F%E3%81%84%E9%81%93%E8%B7%AF-%E9%81%85%E3%81%84%E9%81%93%E8%B7%AF%E3%81%AE%E5%8C%BA%E5%88%86%E3%81%91" data-href="#%E9%80%9F%E3%81%84%E9%81%93%E8%B7%AF-%E9%81%85%E3%81%84%E9%81%93%E8%B7%AF%E3%81%AE%E5%8C%BA%E5%88%86%E3%81%91"><span class="toc-number"></span> <span class="toc-text">4.3. &#x901F;&#x3044;&#x9053;&#x8DEF;, &#x9045;&#x3044;&#x9053;&#x8DEF;&#x306E;&#x533A;&#x5206;&#x3051;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E3%83%81%E3%83%A5%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0" data-href="#%E3%83%81%E3%83%A5%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0"><span class="toc-number"></span> <span class="toc-text">5. &#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E3%83%81%E3%83%A5%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0%E7%B5%90%E6%9E%9C" data-href="#%E3%83%81%E3%83%A5%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0%E7%B5%90%E6%9E%9C"><span class="toc-number"></span> <span class="toc-text">6. &#x30C1;&#x30E5;&#x30FC;&#x30CB;&#x30F3;&#x30B0;&#x7D50;&#x679C;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link mdui-list-item mdui-ripple theme-post__toc__content__link" href="#%E3%81%BE%E3%81%A8%E3%82%81" data-href="#%E3%81%BE%E3%81%A8%E3%82%81"><span class="toc-number"></span> <span class="toc-text">7. &#x307E;&#x3068;&#x3081;</span></a></li></ol></body></html>
   </ul>
 </div>
 
@@ -738,7 +781,19 @@ lua ファイル内では道路のタグ名ごとに初期設定速度を入れ�
   
     <div class="theme-post__pagination mdui-color-theme">
   
-    <div class="theme-spacer mdui-hidden-xs"></div>
+    <div class="theme-post__pagination__prev mdui-ripple mdui-valign">
+      
+        <a href="/tech-blog/2020/09/22/%E3%82%AA%E3%83%B3%E3%83%87%E3%83%9E%E3%83%B3%E3%83%89%E3%83%90%E3%82%B9%E6%9C%80%E9%81%A9%E5%8C%96%E3%81%AE%E3%82%A8%E3%83%83%E3%82%BB%E3%83%B3%E3%82%B91/" class="theme-post__pagination__prev__content mdui-text-left">
+        
+        <div>
+          <i class="mdui-icon material-icons mdui-text-center">&#xe5cb;</i>
+          <span class="mdui-typo-body-2-opacity mdui-text-center">Newer Post</span>
+        </div>
+        <div class="mdui-typo-title mdui-text-truncate">
+          オンデマンドバス最適化のエッセンス1
+        </div>
+      </a>
+    </div>
   
 
   
@@ -817,12 +872,13 @@ lua ファイル内では道路のタグ名ごとに初期設定速度を入れ�
       var links = cardToc.querySelectorAll(".theme-post__toc__content__link");
       var toclist = document.querySelector(".theme-post__toc > ol");
       Array.prototype.forEach.call(links, function(value, index) {
-        var id = (value.getAttribute("href") || "#").slice(1);
+        var id = decodeURI((value.getAttribute("href") || "#").slice(1));
         var element = document.getElementById(id);
+        console.log(element)
         listens.push([value, function() {
           var readed = false;
           var scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
-          if (element.offsetTop <= scrollTop + element.clientHeight + 64) {
+          if (element && element.offsetTop <= scrollTop + element.clientHeight + 64) {
             readed = true;
           } else {
             readed = false;
@@ -845,7 +901,7 @@ lua ファイル内では道路のタグ名ごとに初期設定速度を入れ�
 
 <script type="text/javascript">
   (function() {
-    var postLastModifiedDate = 1598922612000
+    var postLastModifiedDate = 1598814415000
     var today = (new Date()).getTime()
     var difference = Math.floor((today - postLastModifiedDate)/(24*60*60*1000))
     if (difference >= 100) {
@@ -891,7 +947,7 @@ lua ファイル内では道路のタグ名ごとに初期設定速度を入れ�
 
   <div id="outdated" style="z-index: 9999;">
     <h6>Your browser is out-of-date!</h6>
-    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" target="_blank" rel="noopener" href="http://outdatedbrowser.com/">Update my browser now </a></p>
     <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
   </div>
   <!-- import js -->

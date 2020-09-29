@@ -1,12 +1,16 @@
 ---
-title: ルート検索OSS (OSRM) の予測精度を調べました
+title: ルート検索OSS (OSRM) の予測精度を調べました (執筆中)
 date: 2020-08-31T13:06:55+09:00
 thumbnail: false
 categories:
-  - 
+  - OSS検証
 tags: 
-  - 
+  - OSS
+  - OSM
+  - OSRM
 ---
+
+# 執筆中の記事です (ドラフトです)
 
 システム部の登山担当太田です  
 山はいいぞ

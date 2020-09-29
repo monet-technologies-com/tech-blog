@@ -10,6 +10,11 @@
     <category term="vscode" />
     <category term="github" />
     <category term="docker" />
+    <category term="OSS" />
+    <category term="OSM" />
+    <category term="OSRM" />
+    <category term="最適化" />
+    <category term="VRP" />
     <entry>
         <id>https://monet-technologies-com.github.io/tech-blog/2020/08/18/Arch%20Linux%E3%81%AF%E3%81%84%E3%81%84%E3%81%9E%E3%81%A8%E3%81%84%E3%81%86%E8%A9%B1/</id>
         <title>Arch Linuxはいいぞという話</title>

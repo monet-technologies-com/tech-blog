@@ -13,6 +13,11 @@
         <category>vscode</category>
         <category>github</category>
         <category>docker</category>
+        <category>OSS</category>
+        <category>OSM</category>
+        <category>OSRM</category>
+        <category>最適化</category>
+        <category>VRP</category>
         <item>
             <guid isPermalink="true">https://monet-technologies-com.github.io/tech-blog/2020/08/18/Arch%20Linux%E3%81%AF%E3%81%84%E3%81%84%E3%81%9E%E3%81%A8%E3%81%84%E3%81%86%E8%A9%B1/</guid>
             <title>Arch Linuxはいいぞという話</title>
